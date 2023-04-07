@@ -1,47 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-@include('admin.include.header')
+@extends('admin.layout.full')
+@section('content')
 
-</head>
-<body>
-<div class="wrapper d-flex align-items-stretch">
-     @include('admin.include.sidebar')
-        <div id="content" class="p-4 p-md-5">
-                @include('admin.include.navbar')
-                <div style="margin-top: 50px">
-                        <table id="example" class="table table-striped table-bordered " style="width:100%;">
-                                <h3 align="center">Running Session</h3>
-                        <thead>
-                            <tr>
-                                <th>Session Name</th>
-                                <th>Year</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($ses as $s)
-                                @if($s->Status==1)
-                                        <tr>
-                                            <td>{{ $s->Session_name }}</td>
-                                            <td>{{ $s->Year }}</td>
-                                            <td>Edit Option</td>
-                                        </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="container mt-3" align="center">
-                        <a href="{{ URL::to('start-session') }}" class="btn btn-success" >START NEW SESSION</a>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col 5">
+            <h2 align="center">Running Session's'</h2>
+            <form  align="center" action="{{ url('/active-session/'.$ses->id) }}" enctype="multipart/form-data" method="post">
+                @csrf
+                <select name = "session"  class="form-control">
+                <option value="">--Choose Session--</option>
+                    @foreach($ses as $s)
+                        @if($s->Status)
+                            <ul>
+                                <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                            </ul>
+                        @endif
+                    @endforeach
+                </select>
+                <br>
+                <button type="submit" name="running" class="btn btn-primary">Deactivate</button>
+            </form>
+        </div>
+        <div class="col 5">
+            <h2 align="center">Inactive Session's'</h2>
+            <form  align="center" action="{{ url('/deactive-session/'.$ses->id) }}" enctype="multipart/form-data" method="post">
+                @csrf
+                <select name = "session"  class="form-control">
+                <option value="">--Choose Session--</option>
+                    @foreach($ses as $s)
+                        @if($s->Status==0)
+                            <ul>
+                                <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                            </ul>
+                        @endif
+                    @endforeach
+                </select>
+                <br>
+                <button type="submit" name="Inactive" class="btn btn-primary">Activated</button>
+            </form>
         </div>
     </div>
-</body>
-</html>
-<script>
-    $(document).ready(function () {
-        $('#example').DataTable();
-    });
-</script>
+
+@stop

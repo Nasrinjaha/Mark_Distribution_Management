@@ -41,7 +41,11 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
     Route::get('/session', [SessionController::class, 'Session']); 
     Route::get('/start-session', [SessionController::class, 'StartSession']); 
+    Route::post('/store-session', [SessionController::class, 'StoreSession']);
     Route::get('/session-courses', [SessionController::class, 'SessionCourses']); 
+
+    Route::post('/active-session/{id}', [SessionController::class, 'ActiveSession']);
+    Route::post('/deactive-session/{id}', [SessionController::class, 'DeactiveSession']);
 
 });
 

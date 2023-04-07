@@ -19,8 +19,19 @@
 				</li>
 			</ul>
 		</li>
-		<li>
-			<a href="{{URL::to('session')}}">Session</a>
+		<li class="active">
+			<a href="#SessionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Session</a>
+			<ul class="collapse list-unstyled" id="SessionSubmenu">
+				<li>
+					<a href="{{URL::to('session')}}">Sessions</a>
+				</li>
+				<li>
+					<a href="#">Session 2</a>
+				</li>
+				<li>
+					<a href="#">Session 3</a>
+				</li>
+			</ul>
 		</li>
 		<li>
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Creation</a>
@@ -33,6 +44,9 @@
 				</li>
 				<li>
 					<a href="{{URL::to('create-course')}}">Create Course</a>
+				</li>
+				<li>
+					<a href="{{URL::to('start-session')}}">Create New Session</a>
 				</li>
 			</ul>
 		</li>
