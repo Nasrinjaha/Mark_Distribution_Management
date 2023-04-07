@@ -20,7 +20,7 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#">About</a>
+			<a href="{{URL::to('session')}}">Session</a>
 		</li>
 		<li>
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Creation</a>
@@ -32,7 +32,7 @@
 					<a href="{{URL::to('create-student')}}">Create Student</a>
 				</li>
 				<li>
-					<a href="#">Page 3</a>
+					<a href="{{URL::to('create-course')}}">Create Course</a>
 				</li>
 			</ul>
 		</li>
@@ -47,7 +47,7 @@
 					<a href="{{URL::to('all-students')}}">All Student</a>
 				</li>
 				<li>
-					<a href="#">Page 3</a>
+					<a href="{{URL::to('all-course')}}">Available Course</a>
 				</li>
 			</ul>
 		</li>
