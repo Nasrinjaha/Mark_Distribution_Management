@@ -29,7 +29,7 @@
 					<a href="{{URL::to('get-course')}}">Course</a>
 				</li>
 				<li>
-					<a href="#">Session 3</a>
+					<a href="{{URL::to('get-teacher')}}">Teacher</a>
 				</li>
 			</ul>
 		</li>
@@ -47,6 +47,9 @@
 				</li>
 				<li>
 					<a href="{{URL::to('start-session')}}">Create New Session</a>
+				</li>
+				<li>
+					<a href="{{URL::to('create-section')}}">Create New Section</a>
 				</li>
 			</ul>
 		</li>

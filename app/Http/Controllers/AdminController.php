@@ -6,6 +6,8 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Session as Sess;
 use App\Models\Course;
+use App\Models\Assigncourse;
+use App\Models\Section;
 
 use Illuminate\Http\Request;
 use Session;
@@ -74,7 +76,7 @@ class AdminController extends Controller
 
         $pass = $req->pass1;
         $pass2 = $req->pass2;
-        //dd($req);
+       
 
         if($pass==$pass2){
             $users = Teacher::select("*")
@@ -186,19 +188,52 @@ class AdminController extends Controller
         return view('admin.check');
     }
     public function assignCourse(Request $r){
-        //dd($r);
-        $name = $r->session;
+       // dd($r);
+
+        $sessionid = $r->session;
+        Assigncourse::where('session_id', $sessionid)->delete();
         $course = $r->input('check');
         //echo $course;
         for($count = 0; $count < count($course); $count++)
-        {          
-            echo $course[$count];
+        {  
+            $obj = new Assigncourse();         
+            $obj->course_id = $course[$count];
+            $obj->session_id=$sessionid;
+            if($obj->save()){
+             }
+             else{
+                echo "failed";
+             }
         }
+        return redirect()->back()->with('suc_msg','Successfully inserted');
     }
     public function getSelectedCourse($id){
-         //dd($r);
-         $msg = "This is a simple message.";
-         return response()->json(array('msg'=> $msg), 200);
+        $users = Assigncourse::where('session_id', $id)->get();
+        if($users){
+            return response()->json(array('users'=> $users));
+        }
+         
+    }
+    public function CreateSection(){
+        return view('admin.create-section');
+    }
+
+    public function StoreSection(Request $r){
+        $name = $r->secname;
+        $users = Section::select("*")
+        ->where("name", "=", $name)
+        ->first();  
+        if($users){
+            return redirect()->back()->with('dup_msg','Already exist Section!!!!!');
+        } 
+        else{
+            $obj = new Section(); 
+            $obj->name = $name;
+            if($obj->save()){
+                return redirect()->back()->with('suc_msg','successfully inserted');
+            }
+        }
+        return view('admin.create-section');
     }
 
 }

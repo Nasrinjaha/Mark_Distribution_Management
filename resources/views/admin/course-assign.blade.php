@@ -3,6 +3,13 @@
 <h2 align="center">Running Session's</h2>
 <form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
     @csrf
+    @if(Session::has('suc_msg'))
+        <div align="center">
+            <div class="alert alert-success">
+                <strong>{{Session::get('suc_msg')}}</strong> 
+            </div>
+        </div>  
+     @endif
     <select name = "session"  class="form-control"  id="session">
     <option value=" ">--Choose Session--</option>
         @foreach($ses as $s)
@@ -24,9 +31,11 @@
                 </tr>
             </thead>
             <tbody>
+                
                 @foreach($courses as $crc)
+                
                 <tr>
-                    <td><input type="checkbox" id="checkbox" name="check[]"></td>
+                    <td><input type="checkbox" id="checkbox{{$crc->id}}" name="check[]" value="{{$crc->id}}"></td>
                     <td>{{ $crc->Course_code }}</td>
                     <td>{{ $crc->Name }}</td>
                 </tr>
@@ -54,6 +63,15 @@
                         success: function(response){
                             $('#course_table').show();
                             $('#button').show();
+                            console.log(response.users);
+
+                            response.users.forEach(myFunction);
+
+                            function myFunction(item) {
+                                var course = "#checkbox"+item.course_id;
+                                //console.log(course);
+                                $(course).attr('checked', 'checked');
+                            }
                             //alert(response)
                         /* var districts = response.districts;
                             var len = districts.length;
@@ -65,6 +83,10 @@
                             $("#district").append(str);*/
                         }
                     });
+                }
+                else{
+                    $('#course_table').hide();
+                    $('#button').hide();
                 }
             });
            

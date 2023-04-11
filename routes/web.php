@@ -59,6 +59,10 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/get-selected-course/{id}', [AdminController::class, 'getSelectedCourse']);
 
 
+    Route::get('/create-section', [AdminController::class, 'CreateSection']);
+    Route::post('/store-section', [AdminController::class, 'StoreSection']);
+    
+
 });
 
 
