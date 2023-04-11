@@ -20,13 +20,13 @@
 			</ul>
 		</li>
 		<li class="active">
-			<a href="#SessionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Session</a>
+			<a href="#SessionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage</a>
 			<ul class="collapse list-unstyled" id="SessionSubmenu">
 				<li>
-					<a href="{{URL::to('session')}}">Sessions</a>
+					<a href="{{URL::to('session')}}">Session</a>
 				</li>
 				<li>
-					<a href="#">Session 2</a>
+					<a href="{{URL::to('get-course')}}">Course</a>
 				</li>
 				<li>
 					<a href="#">Session 3</a>

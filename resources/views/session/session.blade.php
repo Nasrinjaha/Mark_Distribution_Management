@@ -3,8 +3,8 @@
 
     <div class="row">
         <div class="col 5">
-            <h2 align="center">Running Session's'</h2>
-            <form  align="center" action="{{ url('/active-session/'.$ses->id) }}" enctype="multipart/form-data" method="post">
+            <h2 align="center">Running Session's</h2>
+            <form  align="center" action="{{ url('/active-session') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <select name = "session"  class="form-control">
                 <option value="">--Choose Session--</option>
@@ -21,8 +21,8 @@
             </form>
         </div>
         <div class="col 5">
-            <h2 align="center">Inactive Session's'</h2>
-            <form  align="center" action="{{ url('/deactive-session/'.$ses->id) }}" enctype="multipart/form-data" method="post">
+            <h2 align="center">deactive Session's</h2>
+            <form  align="center" action="{{ url('/deactive-session') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <select name = "session"  class="form-control">
                 <option value="">--Choose Session--</option>
