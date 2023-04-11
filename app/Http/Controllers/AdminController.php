@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Session as Sess;
+use App\Models\Course;
+
 use Illuminate\Http\Request;
 use Session;
 use Image;
@@ -166,6 +169,13 @@ class AdminController extends Controller
         return redirect('/all-teachers');
     }
 
+    public function getCourse(){
+        $ses = Sess::all();
+        $courses = Course::all();
+        return view('admin.course-assign',compact('ses','courses'));
+        //return view('admin.temp',compact('ses','courses'));
+    }
+
     public function haha(){
         $teachers = Teacher::all();
         return view('admin.h', compact('teachers'));
@@ -174,6 +184,21 @@ class AdminController extends Controller
     public function check(){
         
         return view('admin.check');
+    }
+    public function assignCourse(Request $r){
+        //dd($r);
+        $name = $r->session;
+        $course = $r->input('check');
+        //echo $course;
+        for($count = 0; $count < count($course); $count++)
+        {          
+            echo $course[$count];
+        }
+    }
+    public function getSelectedCourse($id){
+         //dd($r);
+         $msg = "This is a simple message.";
+         return response()->json(array('msg'=> $msg), 200);
     }
 
 }

@@ -41,18 +41,22 @@ class SessionController extends Controller
             return redirect('/session');
         }
     }
-    public function DeactiveSession($id){
+    public function DeactiveSession(Request $r){
+        $id = $r->session;
         $ses = Session::find($id);
-        $ses->Staus=0;
+        //echo "deactive ". $ses->Status;
+        $ses->Status=1;
         if($ses->save()){
-            return view('session.session');
+           return redirect('/session');
         }
     }
-    public function ActiveSession($id){
+    public function ActiveSession(Request $r){
+        $id = $r->session;
         $ses = Session::find($id);
-        $ses->Staus=1;
+       // echo "active ". $ses->Status;
+        $ses->Status=0;
         if($ses->save()){
-            return view('session.session');
+            return redirect('/session');
         }
         
     }
