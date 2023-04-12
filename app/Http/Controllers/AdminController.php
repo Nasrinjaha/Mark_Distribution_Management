@@ -12,6 +12,7 @@ use App\Models\Section;
 use Illuminate\Http\Request;
 use Session;
 use Image;
+use DB;
 class AdminController extends Controller
 {
     public function dashboard(){
@@ -193,17 +194,36 @@ class AdminController extends Controller
         $sessionid = $r->session;
         Assigncourse::where('session_id', $sessionid)->delete();
         $course = $r->input('check');
+        $sec = $r->input('s');
         //echo $course;
         for($count = 0; $count < count($course); $count++)
         {  
-            $obj = new Assigncourse();         
-            $obj->course_id = $course[$count];
-            $obj->session_id=$sessionid;
-            if($obj->save()){
-             }
-             else{
-                echo "failed";
-             }
+            $section = $sec[$course[$count]];
+            $v = 'A';
+            for($i=0;$i<$section;$i++){
+                $obj = new Assigncourse(); 
+                $obj->session_id=$sessionid;
+                $obj->course_id=$course[$count];
+                $obj->teacher_id=0;
+                if($i==$section-1 & $section%2==1){
+                    $ss = $v;
+                }
+                else{
+                    if($i%2==1){
+                        $ss = $v.'2';
+                        $v++;
+                    }
+                    else{
+                        $ss = $v.'1';
+                    }
+                }
+                $obj->section=$ss;
+                if($obj->save()){
+                }
+                else{
+                    echo "failed";
+                }
+            }
         }
         return redirect()->back()->with('suc_msg','Successfully inserted');
     }
@@ -234,6 +254,29 @@ class AdminController extends Controller
             }
         }
         return view('admin.create-section');
+    }
+
+    public function GetTeacher(){
+        $ses = Sess::all();
+       // $course = Assigncourse::where('session_id', $id)->get();
+        return view('admin.teacher-assign', compact('ses'));
+    }
+
+    public function getAssignCourse($id){
+        //$users = Assigncourse::where('session_id', $id)->get();
+
+        $users = DB::table('assigncourses')
+            ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+            ->where('assigncourses.session_id','=',$id)
+            ->select('courses.*')
+            //->distinct()//section concate
+            ->get();
+        
+        //dd($users);
+        if($users){
+            return response()->json(array('users'=> $users));
+        }
+         
     }
 
 }
