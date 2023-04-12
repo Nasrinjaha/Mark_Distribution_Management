@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Session;
+use App\Models\Session;
 use Image;
 class AlternateAdminController extends Controller
 {
@@ -18,6 +18,7 @@ class AlternateAdminController extends Controller
         $code = $req->ccode;
         $credit = $req->crdit;
         $hour=$req->hour;
+        $sem=$req->sem;
         if($req->type=="lab"){
             $type = 2;
             $limit = 30;
@@ -39,6 +40,7 @@ class AlternateAdminController extends Controller
                 $obj->Credit = $credit;
                 $obj->Student_limit = $limit;
                 $obj->Hour=$hour;
+                $obj->Semester= $sem;
                 $obj->Type= $type;
                 if($obj->save()){
                 // return redirect('employees');
@@ -89,7 +91,73 @@ class AlternateAdminController extends Controller
           // echo "updated";
         }
     }
+    public function assignCourse(Request $r){
+        //dd($r);
+        $indx=$r->
+        $name = $r->session;
+        $course = $r->input('check');
+        //echo $course;
+        for($count = 0; $count < count($course); $count++)
+        {          
+            echo $course[$count];
+        }
+    }
+    public function getSelectedCourse($id){
+         //dd($r);
+         $msg = "This is a simple message.";
+         return response()->json(array('msg'=> $msg), 200);
+    }
 
-
+    public function Session(){
+        $ses = Session::all();
+        return view('session.session',compact('ses'));
+    }
+    public function StartSession(){
+        //$last  = Session::max('id');
+        $last = Session::latest()->first();
+        //dd($last);
+        return view('session.new_session',compact(['last']));
+    }
+    public function SessionCourses(){
+        $courses = Course::all();
+        return view('session.start_session',compact('courses'));
+    }
+    public function StoreSession(){
+        $last = Session::latest()->first();
+        $year=$last->Year;
+        if($last->Name=="Spring"){
+            $new_name="Fall";
+        }
+        else{
+            $new_name="Spring";
+            $year++;
+        }
+        $obj = new Session();
+        $obj->Session_name=$new_name." ".$year;
+        $obj->Name=$new_name;
+        $obj->Year=$year;
+        $obj->Status=0;
+        if($obj->save()){
+            return redirect('/session');
+        }
+    }
+    public function DeactiveSession(Request $r){
+        $id = $r->session;
+        $ses = Session::find($id);
+        //echo "deactive ". $ses->Status;
+        $ses->Status=1;
+        if($ses->save()){
+           return redirect('/session');
+        }
+    }
+    public function ActiveSession(Request $r){
+        $id = $r->session;
+        $ses = Session::find($id);
+       // echo "active ". $ses->Status;
+        $ses->Status=0;
+        if($ses->save()){
+            return redirect('/session');
+        }
+    }
 
 }

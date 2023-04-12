@@ -39,13 +39,13 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/edit-course/{id}', [AlternateAdminController::class, 'EditCourse']); 
     Route::post('/update-course/{id}', [AlternateAdminController::class, 'UpdateCourse']);
 
-    Route::get('/session', [SessionController::class, 'Session']); 
-    Route::get('/start-session', [SessionController::class, 'StartSession']); 
-    Route::post('/store-session', [SessionController::class, 'StoreSession']);
-    Route::get('/session-courses', [SessionController::class, 'SessionCourses']); 
+    Route::get('/session', [AlternateAdminController::class, 'Session']); 
+    Route::get('/start-session', [AlternateAdminController::class, 'StartSession']); 
+    Route::post('/store-session', [AlternateAdminController::class, 'StoreSession']);
+    Route::get('/session-courses', [AlternateAdminController::class, 'SessionCourses']); 
 
-    Route::post('/active-session', [SessionController::class, 'ActiveSession']);
-    Route::post('/deactive-session', [SessionController::class, 'DeactiveSession']);
+    Route::post('/active-session', [AlternateAdminController::class, 'ActiveSession']);
+    Route::post('/deactive-session', [AlternateAdminController::class, 'DeactiveSession']);
 
 });
 
