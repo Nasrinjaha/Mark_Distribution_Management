@@ -58,7 +58,6 @@ class SessionController extends Controller
         if($ses->save()){
             return redirect('/session');
         }
-        
     }
 
 }
