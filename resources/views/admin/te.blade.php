@@ -3,6 +3,13 @@
 <h2 align="center">Running Session's</h2>
 <form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
     @csrf
+    @if(Session::has('suc_msg'))
+        <div align="center">
+            <div class="alert alert-success">
+                <strong>{{Session::get('suc_msg')}}</strong> 
+            </div>
+        </div>  
+     @endif
     <select name = "session"  class="form-control"  id="session">
     <option value=" ">--Choose Session--</option>
         @foreach($ses as $s)
@@ -14,92 +21,93 @@
         @endforeach
     </select>
     <br>
+    <select name = "course"  class="form-control"  id="course">
+        <option value="">--Choose Course--</option>
+    </select>
+ 
+   <br>
      
-        <table id="course_table" class="table table-striped table-bordered " style="width:100%;">
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($courses as $crc)
-                <tr>
-                    <td><input type="checkbox" id="checkbox" name="check[]" value="<?php $crc->id ?>"></td>
-                    <td>{{ $crc->Course_code }}</td>
-                    <td>{{ $crc->Name }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>  
-        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+   <table id="teacherassign" class="table table-striped table-bordered" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Section</th>
+            <th>Assign Teacher</th>
+        </tr>
+    </thead>
+     <tbody>
+
+    </tbody>
+    </table>
+ 
+    <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
-            $('#course_table').hide();
-            $('#button').hide();
-            $("#session").change(function(){
-                
-                var session_id = $(this).val();
-                if(session_id!=" "){
+        $('#teacherassign').hide();
+        $('#button').hide();
+        $("#session").change(function(){
+            
+            var session_id = $(this).val();
+            if(session_id!=" "){
+                //$("#district").empty();
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/get-assign-course/'+session_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response){
+                        console.log(response.users);
 
-                
-                    //$("#district").empty();
-                    $.ajax({
-                        url: 'http://127.0.0.1:8000/get-selected-course/'+session_id,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(response){
-                            $('#course_table').show();
-                            $('#button').show();
-                            //alert(response)
-                        /* var districts = response.districts;
-                            var len = districts.length;
-                            str = ' <option value="">SELECT DISTRICT</option>';
-                            for(var i=0; i<len; i++){
-                                str += '<option value="'+districts[i].id+'">'+districts[i].name+'</option>'
-                                
-                            }
-                            $("#district").append(str);*/
+                        var len = response.users.length;
+                        str = '';
+                        for(var i=0; i<len; i++){
+                            str += '<option value="'+response.users[i].id+'">'+response.users[i].Name+'</option>'
                         }
-                    });
-                }
-            });
-           
-        });
-    </script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script>
-            /*$(document).ready(function(){
-                //hide the table initially
-                $('#course_table').hide()
-                $('#session').change(function(){
-                    /*$.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                        }
-                    });*/
-                    var session = $('#session').val();
-                    if(session != " "){
-                        
+                        $("#course").append(str);
+                        //alert(response)
+                    }
+                });
+
+
+                $(document).ready(function(){
+                $("#course").change(function(){
+                var id = $(this).val();
+                    if(id!=""){
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/get-selected-course/',
-                            type: 'POST',
+                            url: 'http://127.0.0.1:8000/get-section/'+id+session_id,
+                            type: 'GET',
                             dataType: 'json',
-                            data: session,
-                            success:function(data) {
-                                // $("#msg").html(data.msg);
-                                console.log(data);
-                                $('#course_table').show()
+                            success: function(response){
+                                 console.log(response);
+                                 var len = response.section.length;
+                                 console.log(len);
+                                var op = '<select name="" id=""><option value="">--choose teacher--</option>';</select>' 
+                                var table_str = '<tr><th>Section</th><th>Assign Teacher</th></tr>';
+                                for(var i=0; i<len; i++){
+                                     table_str += '<td>'+response.section[i].section+'</td><td>'+ +'</td></tr>';
+                                    //console.log(response.section[i].section);
+                                }
+                                 $("#teacherassign").html(table_str);
+                                 $('#teacherassign').show();
+                                 $('#button').show();
                             }
-                        })
+                        });
                     }
                     else{
-                        $('#course_table').hide()
+                        $('#teacherassign').hide();
+                        $('#button').hide();
                     }
-                })
-            })
-        </script> -->
+                });
+                    
+                });
+            }
+            else{
+                $('#teacherassign').hide();
+                $('#button').hide();
+            }
+        });
+
+        
+});
+</script> 
 @stop

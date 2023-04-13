@@ -269,7 +269,7 @@ class AdminController extends Controller
             ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
             ->where('assigncourses.session_id','=',$id)
             ->select('courses.*')
-            //->distinct()//section concate
+            ->distinct()//section concate
             ->get();
         
         //dd($users);
@@ -278,5 +278,18 @@ class AdminController extends Controller
         }
          
     }
+    public function getSection($id,$sid){
+        //dd($course_id);
+
+        $users = DB::table('assigncourses')
+            ->select(DB::raw('section'))
+            ->where('session_id','=',$sid)
+            ->where('course_id','=',$id)
+            ->get();
+        if($users){
+            return response()->json(array('section'=> $users));
+        }
+    }
+
 
 }

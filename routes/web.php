@@ -64,6 +64,8 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
     Route::get('/get-teacher', [AdminController::class,'GetTeacher']);
     Route::get('/get-assign-course/{id}', [AdminController::class, 'getAssignCourse']);
+    Route::get('/get-section/{id}{session_id}', [AdminController::class, 'getSection']);
+
     Route::post('/assign-teacher', [AdminController::class,'StoreTeacher']);
     Route::get('/check/{id}', [AdminController::class, 'getAssignCourse']);
 
@@ -75,13 +77,16 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
 Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 
-    Route::get('/student-dashboard', [StudentController::class,'dashboard']); 
+    Route::get('/student-dashboard', [StudentController::class,'dashboard']);
+   
 });
 
 
 Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
 
-    Route::get('/teacher-dashboard', [TeacherController::class,'dashboard']); 
+    Route::get('/teacher-dashboard',[TeacherController::class,'dashboard']); 
+    Route::get('/teacher-current-course',[TeacherController::class,'getCourse']);
+    Route::get('/get-teacherassign-course/{id}',[TeacherController::class,'getTeacherAssignCourse']);
 
 });
 
