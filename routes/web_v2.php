@@ -47,6 +47,13 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::post('/active-session', [AlternateAdminController::class, 'ActiveSession']);
     Route::post('/deactive-session', [AlternateAdminController::class, 'DeactiveSession']);
 
+
+
+
+    Route::get('/get-teacher2', [AlternateAdminController::class,'GetTeacher']);
+    Route::get('/get-course-data/{course_id}', [AlternateAdminController::class, 'getcoursedata']);
+
+
 });
 
 

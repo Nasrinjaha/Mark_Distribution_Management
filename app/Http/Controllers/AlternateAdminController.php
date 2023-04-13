@@ -6,6 +6,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Session;
 use Image;
+use DB;
 class AlternateAdminController extends Controller
 {
 
@@ -110,17 +111,17 @@ class AlternateAdminController extends Controller
 
     public function Session(){
         $ses = Session::all();
-        return view('session.session',compact('ses'));
+        return view('admin.session',compact('ses'));
     }
     public function StartSession(){
         //$last  = Session::max('id');
         $last = Session::latest()->first();
         //dd($last);
-        return view('session.new_session',compact(['last']));
+        return view('admin.new_session',compact(['last']));
     }
     public function SessionCourses(){
         $courses = Course::all();
-        return view('session.start_session',compact('courses'));
+        return view('admin.start_session',compact('courses'));
     }
     public function StoreSession(){
         $last = Session::latest()->first();
@@ -157,6 +158,25 @@ class AlternateAdminController extends Controller
         $ses->Status=0;
         if($ses->save()){
             return redirect('/session');
+        }
+    }
+
+    public function GetTeacher(){
+        $ses = Session::all();
+       // $course = Assigncourse::where('session_id', $id)->get();
+        return view('admin.teacher-assign2', compact('ses'));
+    }
+
+    public function getcoursedata($id,$sid){
+        //dd($course_id);
+
+        $users = DB::table('assigncourses')
+            ->select(DB::raw('COUNT(id)'))
+            ->where('session_id','=',$sid)
+            ->where('course_id','=',$id)
+            ->get();
+        if($users){
+            return response()->json(array('section'=> $users));
         }
     }
 
