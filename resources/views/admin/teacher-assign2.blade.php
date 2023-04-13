@@ -73,36 +73,36 @@
                 $('#course_table').hide();
                 $('#button').hide();
             }
+
+            $("#course").change(function(){
+            var id = $(this).val();
+            if(id!=""){
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/get-course-data/'+id+session_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response){
+                        console.log(response);
+                        var len = response.length;
+                        var table_str = '';
+                        for(var i=0; i<len; i++){
+                            table_str += '<tr><td>'+response.section[i].id+'</td><td>'+response[i].id+'</td><td>'+response[i].Credit+'</td></tr>'
+                        }
+                        $("#course_data_table tbody").html(table_str);
+                        $('#course_data_table').show();
+                        $('#button').show();
+                    }
+                });
+            }
+            else{
+                $('#course_data_table').hide();
+                $('#button').hide();
+            }
+        });
         });
 
-        $(document).ready(function(){
-        $("#course").change(function(){
-        var id = $(this).val();
-        if(id!=""){
-            $.ajax({
-                url: 'http://127.0.0.1:8000/get-course-data/'+id,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response){
-                    console.log(response);
-                    var len = response.length;
-                    var table_str = '';
-                    for(var i=0; i<len; i++){
-                        table_str += '<tr><td>'+response[i].id+'</td><td>'+response[i].id+'</td><td>'+response[i].Credit+'</td></tr>'
-                    }
-                    $("#course_data_table tbody").html(table_str);
-                    $('#course_data_table').show();
-                    $('#button').show();
-                }
-            });
-        }
-        else{
-            $('#course_data_table').hide();
-            $('#button').hide();
-        }
-    });
         
-    });
+        
 });
 </script> 
 @stop

@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\AlternateAdminController;
+use App\Http\Controllers\AlternativeTeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +66,13 @@ Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 
 Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
 
-    Route::get('/teacher-dashboard', [TeacherController::class,'dashboard']); 
+    Route::get('/teacher-dashboard', [AlternativeTeacherController::class,'dashboard']); 
+
+    Route::get('/edit-teacher-info', [AlternativeTeacherController::class,'EditInfo']);
+    Route::post('/update-teacher-info', [AlternativeTeacherController::class, 'UpdateInfo']);
+    
+    Route::get('/edit-teacher-password', [AlternativeTeacherController::class,'EditPass']);
+    Route::post('/update-teacher-pass', [AlternativeTeacherController::class, 'UpdatePass']); 
 
 });
 
