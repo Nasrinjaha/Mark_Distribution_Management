@@ -21,7 +21,7 @@
             </form>
         </div>
         <div class="col 5">
-            <h2 align="center">deactive Session's</h2>
+            <h2 align="center">Deactivated Session's</h2>
             <form  align="center" action="{{ url('/deactive-session') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <select name = "session"  class="form-control">
