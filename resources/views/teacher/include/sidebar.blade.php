@@ -5,32 +5,26 @@
 	<ul class="list-unstyled components mb-5">
 		<li class="active">
 			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-			<ul class="collapse list-unstyled" id="homeSubmenu">
+		</li>
+		<li>
+			<a href="#infoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">My Profile</a>
+			<ul class="collapse list-unstyled" id="infoSubmenu">
 				<li>
-					<a href="#">Home 1</a>
+					<a href="{{URL::to('edit-teacher-info')}}">Edit Information</a>
 				</li>
 				<li>
-					<a href="#">Home 2</a>
-				</li>
-				<li>
-					<a href="#">Home 3</a>
+					<a href="{{URL::to('edit-teacher-password')}}">Edit Password</a>
 				</li>
 			</ul>
 		</li>
 		<li>
-			<a href="#">About</a>
-		</li>
-		<li>
-			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-			<ul class="collapse list-unstyled" id="pageSubmenu">
+			<a href="#courseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Course's</a>
+			<ul class="collapse list-unstyled" id="courseSubmenu">
 				<li>
-					<a href="#">Page 1</a>
+					<a href="{{URL::to('teacher-current-course')}}">MarK Distribution</a>
 				</li>
 				<li>
-					<a href="#">Page 2</a>
-				</li>
-				<li>
-					<a href="#">Page 3</a>
+					<a href="{{URL::to('teacher-previous-course')}}">Previously Conducted Course's</a>
 				</li>
 			</ul>
 		</li>
