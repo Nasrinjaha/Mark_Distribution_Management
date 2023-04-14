@@ -78,6 +78,10 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 
     Route::get('/student-dashboard', [StudentController::class,'dashboard']);
+    Route::get('/enroll', [StudentController::class,'Enroll']);
+    Route::get('/available-course/{id}', [StudentController::class,'AvailableCourse']);
+    Route::post('/enroll-request', [StudentController::class,'EnrollRequest']);
+
    
 });
 
