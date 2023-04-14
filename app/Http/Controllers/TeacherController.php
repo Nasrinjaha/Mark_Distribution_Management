@@ -8,6 +8,7 @@ use App\Models\Session as Sess;
 use App\Models\Course;
 use App\Models\Assigncourse;
 use App\Models\Section;
+use App\Models\Markdistribution;
 
 use Illuminate\Http\Request;
 use Session;
@@ -31,15 +32,48 @@ class TeacherController extends Controller
         $users = DB::table('assigncourses')
             ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
             ->where('assigncourses.session_id','=',$id)
-            // ->where('assigncourses.teacher_id','=',$tid)
-            ->select('courses.*')
+             ->where('assigncourses.teacher_id','=',$tid)
+            ->select('courses.*','assigncourses.section as section','assigncourses.id as acid')
             ->distinct()//section concate
             ->get();
         
-        dd($users);
+        //dd($users);
         if($users){
             return response()->json(array('users'=> $users));
         }
          
+    }
+
+    public function MarkDistribution(Request $r){
+        //dd($r);
+
+        $category = $r->input('category');
+        $marks = $r->input('marks');
+        //echo $course;
+        for($count = 0; $count < count($category); $count++){  
+            $obj = new Markdistribution(); 
+            $obj->ac_id=$r->course;
+            $obj->category=$category[$count];
+            $obj->marks=$marks[$count];
+            if($obj->save()){
+            }
+            else{
+                echo "failed";
+            }  
+        }
+        return redirect()->back()->with('suc_msg','Successfully inserted');
+    }   
+    public function DistributedCourse($id){
+        $users = DB::table('markdistributions')
+            ->where('ac_id','=',$id)
+            ->select('markdistributions.*')
+            ->get();
+        
+        //dd($users);
+        if($users){
+            return response()->json(array('users'=> $users));
+        }
+
+
     }
 }

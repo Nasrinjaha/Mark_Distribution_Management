@@ -87,6 +87,8 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::get('/teacher-dashboard',[TeacherController::class,'dashboard']); 
     Route::get('/teacher-current-course',[TeacherController::class,'getCourse']);
     Route::get('/get-teacherassign-course/{id}',[TeacherController::class,'getTeacherAssignCourse']);
+    Route::post('/mark-distribution',[TeacherController::class,'MarkDistribution']);
+    Route::get('/distributed-course/{id}',[TeacherController::class,'DistributedCourse']);
 
 });
 
