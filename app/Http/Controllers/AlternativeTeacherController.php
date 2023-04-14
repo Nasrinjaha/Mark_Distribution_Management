@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use Session;
+use DB;
 
 class AlternativeTeacherController extends Controller
 {
@@ -63,5 +64,21 @@ class AlternativeTeacherController extends Controller
         if($obj->save()){
             return redirect('/edit-teacher-password');
          }
+    }
+
+    public function PreviousCourse(){
+        $tid = Session::get('id');
+        $secid = DB::table('sessions')->max('id');
+
+        $session =DB::table('assigncourses')
+        ->select('assigncourses.session_id', 'assigncourses.teacher_id', 'assigncourses.course_id', 'courses.Name', 'courses.Course_code', 'sessions.Session_name', 'assigncourses.Semester', 'assigncourses.section')
+        ->join('courses','assigncourses.course_id','=','courses.id')
+        ->join('sessions','assigncourses.session_id','=','sessions.id')
+        ->where('assigncourses.session_id','<',$secid)
+        ->where('assigncourses.teacher_id','=',$tid)
+        ->orderBy('assigncourses.session_id','asc')
+        ->orderBy('assigncourses.Semester','asc')
+        ->get();
+        return view('teacher.previous-course', compact('session'));
     }
 }

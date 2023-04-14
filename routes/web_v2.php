@@ -49,11 +49,11 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::post('/deactive-session', [AlternateAdminController::class, 'DeactiveSession']);
 
 
-
-
     Route::get('/get-teacher2', [AlternateAdminController::class,'GetTeacher']);
     Route::get('/get-course-data/{course_id}', [AlternateAdminController::class, 'getcoursedata']);
 
+    Route::get('/get-enrollment-request', [AlternateAdminController::class, 'Enrollreq']);
+    Route::get('/apprve/{id}', [AlternateAdminController::class, 'AppEnrollreq']);
 
 });
 
@@ -72,7 +72,9 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::post('/update-teacher-info', [AlternativeTeacherController::class, 'UpdateInfo']);
     
     Route::get('/edit-teacher-password', [AlternativeTeacherController::class,'EditPass']);
-    Route::post('/update-teacher-pass', [AlternativeTeacherController::class, 'UpdatePass']); 
+    Route::post('/update-teacher-pass', [AlternativeTeacherController::class, 'UpdatePass']);
+
+    Route::get('/teacher-previous-courses', [AlternativeTeacherController::class,'PreviousCourse']);
 
 });
 

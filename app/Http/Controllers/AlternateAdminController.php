@@ -5,6 +5,8 @@ use App\Models\Admin;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Session;
+use App\Models\Assigncourse;
+use App\Models\Enroll;
 use Image;
 use DB;
 class AlternateAdminController extends Controller
@@ -177,6 +179,26 @@ class AlternateAdminController extends Controller
             ->get();
         if($users){
             return response()->json(array('section'=> $users));
+        }
+    }
+
+    public function Enrollreq(){
+        $lst=DB::table('sessions')->max('id');
+        $enroll=DB::table('assigncourses')
+            ->select('assigncourses.id', 'assigncourses.session_id', 'assigncourses.section', 'enrolls.id as enroll_id', 'enrolls.status', 'enrolls.st_id', 'enrolls.assigncourse_id', 'courses.Course_code', 'courses.Name', 'courses.semester')
+            ->join('enrolls','assigncourses.id','=','enrolls.assigncourse_id')
+            ->join('courses','assigncourses.course_id','=','courses.id')
+            ->where('assigncourses.session_id','=',$lst)
+            ->where('enrolls.status','=',0)
+            ->get();
+
+        return view('admin.enroll-request', compact('enroll'));
+    }
+    public function AppEnrollreq($id){
+        $user = Enroll::find($id);
+        $user->status = 1;
+        if($user->save()){
+            return redirect()->back();
         }
     }
 
