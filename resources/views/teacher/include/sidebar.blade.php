@@ -24,7 +24,7 @@
 					<a href="{{URL::to('teacher-current-course')}}">MarK Distribution</a>
 				</li>
 				<li>
-					<a href="{{URL::to('teacher-previous-course')}}">Previously Conducted Course's</a>
+					<a href="{{URL::to('teacher-previous-courses')}}">Previously Conducted Course's</a>
 				</li>
 			</ul>
 		</li>
