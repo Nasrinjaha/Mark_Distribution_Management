@@ -24,7 +24,7 @@
 			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
 			<ul class="collapse list-unstyled" id="pageSubmenu">
 				<li>
-					<a href="#">Page 1</a>
+					<a href="{{URL::to('enroll')}}">Enroll</a>
 				</li>
 				<li>
 					<a href="#">Page 2</a>
