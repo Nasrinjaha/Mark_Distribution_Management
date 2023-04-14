@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Assigncourse;
 use App\Models\Section;
 use App\Models\Markdistribution;
+use App\Models\Enroll;
 
 use Illuminate\Http\Request;
 use Session;
@@ -44,7 +45,21 @@ class StudentController extends Controller
         }
     }
     public function EnrollRequest(Request $r){
-        dd($r);
+        $sid = Session::get('id');
+        $acid = $r->input('check');
+        //echo $course;
+        for($count = 0; $count < count($acid); $count++){  
+            $obj = new Enroll(); 
+            $obj->assigncourse_id=$acid[$count];
+            $obj->st_id=$sid;
+            $obj->status=0;
+            if($obj->save()){
+            }
+            else{
+                echo "failed";
+            }  
+        }
+        return redirect()->back()->with('suc_msg','Successfully inserted');
     }
 }
 
