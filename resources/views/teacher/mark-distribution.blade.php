@@ -37,6 +37,9 @@
     </thead>
      <tbody id="dynamic">
         <tr>
+            <td><input type="text" name="category[]"></td>
+            <td><input type="number" name="marks[]"></td>
+            <td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>
         </tr>
         
     </tbody>
@@ -126,7 +129,7 @@
                                         $('#dynamic').append(html);
                                         $('#teacherassign').show();
                                         $('#button').show();
-                                        html = ' ';
+                                      
                                     }
                                     else{
                                         var html = '';

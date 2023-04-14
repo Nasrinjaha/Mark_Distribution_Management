@@ -1,7 +1,7 @@
-@extends('admin.layout.full')
+@extends('student.layout.full')
 @section('content')
 <h2 align="center">Running Session's</h2>
-<form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
+<form  align="center"  action="{{url('/enroll-request')}}" method="post">
     @csrf
     @if(Session::has('suc_msg'))
         <div align="center">
@@ -30,19 +30,11 @@
                     <th>Course Name</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="crctble">
                 
-                @foreach($courses as $crc)
-                <tr>
-                    <td><input type="checkbox" id="checkbox{{$crc->id}}" name="check[]" value="{{$crc->id}}"></td>
-                    <td>{{ $crc->Course_code }}</td>
-                    <td>{{ $crc->Name }}</td>
-                    <td><input type="number" name="s[{{$crc->id}}]" ></td>                  
-                </tr>
-                @endforeach
             </tbody>
         </table>  
-        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+        <button type="submit" name="submit" id="submitBtn" class="btn btn-primary">assign</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
@@ -55,15 +47,26 @@
                 if(session_id!=" "){
 
                 
-                    //$("#district").empty();
+                    //$("#course_table").empty();
                     $.ajax({
-                        url: 'http://127.0.0.1:8000/get-selected-course/'+session_id,
+                        url: 'http://127.0.0.1:8000/available-course/'+session_id,
                         type: 'GET',
                         dataType: 'json',
                         success: function(response){
+                            console.log(response.users);
+                            var len = response.users.length;
+                            var html = '';
+                            for(var i=0;i<len;i++){
+                                html+='<tr>';
+                                html+='<td><input type="checkbox" id="checkbox'+response.users[i].acid+'" name="check[]" value="'+response.users[i].acid+'"></td>';
+                                html+='<td>'+response.users[i].Course_code+'</td>';
+                                html+='<td>'+response.users[i].Name+' - '+response.users[i].section+'</td>';
+                                html+='</tr>'
+                                //console.log(response.users[i].section);
+                            }
+                            $('#crctble').append(html);
                             $('#course_table').show();
                             $('#button').show();
-                            console.log(response.users);
 
                             response.users.forEach(myFunction);
 
@@ -72,9 +75,10 @@
                                 //console.log(course);
                                 $(course).attr('checked', 'checked');
                             }
+                
                         }
                     });
-                }
+                 }
                 else{
                     $('#course_table').hide();
                     $('#button').hide();
