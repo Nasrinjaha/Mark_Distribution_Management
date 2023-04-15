@@ -56,7 +56,10 @@
             
             var session_id = $(this).val();
             if(session_id!=" "){
-                //$("#district").empty();
+                $("#course").empty();
+                $('#teacherassign').empty();
+                $('#button').hide()
+                
                 $.ajax({
                     url: 'http://127.0.0.1:8000/get-assign-course/'+session_id,
                     type: 'GET',
@@ -65,7 +68,7 @@
                         console.log(response.users);
 
                         var len = response.users.length;
-                        str = '';
+                        str = '<option value="">--Choose Course--</option>';
                         for(var i=0; i<len; i++){
                             str += '<option value="'+response.users[i].id+'">'+response.users[i].Name+'</option>'
                         }
@@ -79,6 +82,8 @@
                     var id = $(this).val();
                     
                     if(id!=""){
+                        // $('#teacherassign').hide();
+                        // $('#button').hide();
                         $.ajax({
                             url: 'http://127.0.0.1:8000/get-section/'+id+session_id,
                             type: 'GET',
