@@ -54,8 +54,8 @@
                 
                 var session_id = $(this).val();
                 if(session_id!=" "){
-
-                
+                    //$('#course_table').reload()
+                    //$('#course_table').empty();
                     //$("#district").empty();
                     $.ajax({
                         url: 'http://127.0.0.1:8000/get-selected-course/'+session_id,

@@ -10,6 +10,13 @@
             </div>
         </div>  
      @endif
+     @if(Session::has('err_msg'))
+        <div align="center">
+            <div class="alert alert-danger">
+                <strong>{{Session::get('err_msg')}}</strong> 
+            </div>
+        </div>  
+     @endif
     <select name = "session"  class="form-control"  id="session">
     <option value=" ">--Choose Session--</option>
         @foreach($ses as $s)
@@ -70,6 +77,10 @@
                 if(session_id!=" "){
 
                     $("#course").empty();
+                    $("#dynamic").empty();
+                    $('#teacherassign').hide();
+                    $('#button').hide();
+                   
                     //console.log(session_id);
                     $.ajax({
                         url: 'http://127.0.0.1:8000/get-teacherassign-course/'+session_id,
@@ -103,6 +114,7 @@
                                     console.log(response.users);
                                     var len = response.users.length;
                                     if(len!=" "){
+                                        $('#dynamic').empty();
                                         var html = '';
                                         for(var i=0; i<len; i++){
 
@@ -116,6 +128,7 @@
                                                 $('#dynamic').append(html);
                                             }
                                             else{
+                                              
                                                 html = '';
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
@@ -132,6 +145,7 @@
                                       
                                     }
                                     else{
+                                        $('#dynamic').empty();
                                         var html = '';
                                         html+='<tr>';
                                         html+='<td><input type="text" name="category[]"></td>';

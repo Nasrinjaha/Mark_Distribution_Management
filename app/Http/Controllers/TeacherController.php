@@ -45,23 +45,41 @@ class TeacherController extends Controller
     }
 
     public function MarkDistribution(Request $r){
-        //dd($r);
 
         $category = $r->input('category');
         $marks = $r->input('marks');
         //echo $course;
+        $sum = 0;
         for($count = 0; $count < count($category); $count++){  
-            $obj = new Markdistribution(); 
-            $obj->ac_id=$r->course;
-            $obj->category=$category[$count];
-            $obj->marks=$marks[$count];
-            if($obj->save()){
-            }
-            else{
-                echo "failed";
-            }  
+           $sum+=$marks[$count];
         }
-        return redirect()->back()->with('suc_msg','Successfully inserted');
+        //dd($sum);
+        if($sum<100){
+            return redirect()->back()->with('err_msg','Distribution failed->(less than 100)');
+        }
+        else if($sum>100){
+            return redirect()->back()->with('err_msg','Distribution failed->(greater than 100)');
+        }
+        else{
+
+            Markdistribution::where('ac_id', $r->course)->delete();
+            for($count = 0; $count < count($category); $count++){  
+                $obj = new Markdistribution(); 
+                $obj->ac_id=$r->course;
+                $obj->category=$category[$count];
+                $obj->marks=$marks[$count];
+                if($obj->save()){
+                    
+                }
+                else{
+                    return redirect()->back()->with('suc_msg','insertion faild');
+                }  
+            }
+            return redirect()->back()->with('suc_msg','Successfully inserted');
+        }
+
+        
+        
     }   
     public function DistributedCourse($id){
         $users = DB::table('markdistributions')
