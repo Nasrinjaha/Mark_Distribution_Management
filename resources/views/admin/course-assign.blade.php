@@ -1,6 +1,6 @@
 @extends('admin.layout.full')
 @section('content')
-<h2 align="center">Running Session's</h2>
+<h2 align="center">Course's Assign</h2>
 <form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
     @csrf
     @if(Session::has('suc_msg'))
@@ -28,6 +28,7 @@
                     <th>Select</th>
                     <th>Course Code</th>
                     <th>Course Name</th>
+                    <th>Section</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +38,7 @@
                     <td><input type="checkbox" id="checkbox{{$crc->id}}" name="check[]" value="{{$crc->id}}"></td>
                     <td>{{ $crc->Course_code }}</td>
                     <td>{{ $crc->Name }}</td>
-                    <td><input type="number" name="s[{{$crc->id}}]" ></td>                  
+                    <td><input type="number" name="s[{{$crc->id}}]" id="section{{$crc->id}}"></td>                  
                 </tr>
                 @endforeach
             </tbody>
@@ -64,14 +65,21 @@
                             $('#course_table').show();
                             $('#button').show();
                             console.log(response.users);
+                            var len = response.users.length;
+                            for(var i=0; i<len; i++){
+                                var course = "#checkbox"+ response.users[i].course_id;
+                                $(course).attr('checked', 'checked');
+                                var section = "#section"+response.users[i].course_id;
+                                $(section).val(response.users[i].total);
 
-                            response.users.forEach(myFunction);
+                            }
+                            /*response.users.forEach(myFunction);
 
                             function myFunction(item) {
                                 var course = "#checkbox"+item.course_id+"("+item.section+")";
                                 //console.log(course);
                                 $(course).attr('checked', 'checked');
-                            }
+                            }*/
                         }
                     });
                 }

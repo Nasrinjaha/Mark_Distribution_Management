@@ -1,97 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Teacher</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+@include('admin.include.header')
 </head>
 <body>
-    <div class="container">
-        <h3>Create Teacher</h3>
-        <form action="">
-            <div class="form-group">
-                <label for="">Division</label>
-                @csrf
-                <select name = "session"  class="form-control"  id="session">
-                <option value=" ">--Choose Session--</option>
-                    @foreach($ses as $s)
-                        @if($s->Status)
-                            <ul>
-                                <option value="{{$s->id}}">{{$s->Session_name}}</option>
-                            </ul>
-                        @endif
-                    @endforeach
-                </select>
-    <table id="course_table" class="table table-striped table-bordered " style="width:100%;">
+<div class="wrapper d-flex align-items-stretch">
+     @include('admin.include.sidebar')
+        <div id="content" class="p-4 p-md-5">
+            @include('admin.include.navbar')
+            <form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
+    @csrf
+    @if(Session::has('suc_msg'))
+        <div align="center">
+            <div class="alert alert-success">
+                <strong>{{Session::get('suc_msg')}}</strong> 
+            </div>
+        </div>  
+     @endif
+    <select name = "session"  class="form-control"  id="session">
+    <option value=" ">--Choose Session--</option>
+        @foreach($ses as $s)
+            @if($s->Status)
+                <ul>
+                    <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                </ul>
+            @endif
+        @endforeach
+    </select>
+    <br>
+     
+        <table id="course_table" class="table table-striped table-bordered " style="width:100%;">
             <thead>
                 <tr>
-                    <th>Select</th>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
+                        <th>Student ID</th>
+                        <th>Course Name</th>
+                        <th>Course Code</th>
+                        <th>Semester</th>
+                        <th>Section</th>
+                        <th>Approve</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($courses as $crc)
+               
                 <tr>
-                    <td><input type="checkbox" id="checkbox" name="check[]"></td>
-                    <td>{{ $crc->Course_code }}</td>
-                    <td>{{ $crc->Name }}</td>
+                        <!-- <td>{{ $enroll->st_id }}</td>
+                        <td>{{ $enroll->Name }}</td>
+                        <td>{{ $enroll->Course_code }}</td>
+                        <td>{{ $enroll->semester }}</td>
+                        <td>{{ $enroll->section }}</td>  
+                        <td>
+                            <form method="POST" action="{{ url('apprve/'.$enroll->enroll_id) }}">
+                                @csrf
+                                <button type="submit">Approve</button>
+                            </form>
+                        </td>                -->
                 </tr>
-                @endforeach
             </tbody>
         </table>  
-        <button type="submit" name="submit" class="btn btn-primary">assign</button>
+        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
     </form>
-    
+            </div>
+        </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
             $('#course_table').hide();
+            $('#button').hide();
             $("#session").change(function(){
                 
                 var session_id = $(this).val();
-                //$("#district").empty();
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/get-selected-course/'+session_id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(response){
-                        $('#course_table').show();
-                        //alert(response)
-                       /* var districts = response.districts;
-                        var len = districts.length;
-                        str = ' <option value="">SELECT DISTRICT</option>';
-                        for(var i=0; i<len; i++){
-                            str += '<option value="'+districts[i].id+'">'+districts[i].name+'</option>'
-                            
+                if(session_id!=" "){
+
+                
+                    //$("#course_table").empty();
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/available-course/'+session_id,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(response){
+                            console.log(response.users);
+                            var len = response.users.length;
+                            var html = '';
+                            for(var i=0;i<len;i++){
+                                html+='<tr>';
+                                html+='<td><input type="checkbox" id="checkbox'+response.users[i].acid+'" name="check[]" value="'+response.users[i].acid+'"></td>';
+                                html+='<td>'+response.users[i].Course_code+'</td>';
+                                html+='<td>'+response.users[i].Name+' - '+response.users[i].section+'</td>';
+                                html+='</tr>'
+                                //console.log(response.users[i].section);
+                            }
+                            $('#crctble').append(html);
+                            $('#course_table').show();
+                            $('#button').show();
+
+                            response.users.forEach(myFunction);
+
+                            function myFunction(item) {
+                                var course = "#checkbox"+item.course_id+"("+item.section+")";
+                                //console.log(course);
+                                $(course).attr('checked', 'checked');
+                            }
+                
                         }
-                        $("#district").append(str);*/
-                    }
-                });
+                    });
+                 }
+                else{
+                    $('#course_table').hide();
+                    $('#button').hide();
+                }
             });
-            $("#submitBtn").click(function(evt){
-                evt.preventDefault();
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/store-teacher',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        teacher_division: $("#division").val(),
-                        teacher_district: $("#district").val(),
-                        teacher_name: $("#name").val()
-                    },
-                    success: function(response){
-                        console.log(response.msg)
-                    }
-                });
-            });
+           
         });
     </script>
-</body>
-</html>
+

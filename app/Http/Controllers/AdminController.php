@@ -228,9 +228,14 @@ class AdminController extends Controller
         return redirect()->back()->with('suc_msg','Successfully inserted');
     }
     public function getSelectedCourse($id){
-        $users = Assigncourse::where('session_id', $id)->get();
+        $users = Assigncourse::where('session_id', $id)
+                            ->select('course_id', DB::raw('count(*) as total'))
+                            ->groupBy('course_id')
+                            ->get();
+         
+                               
         if($users){
-            return response()->json(array('users'=> $users));
+            return response()->json(['users'=> $users]);
         }
          
     }
@@ -258,7 +263,6 @@ class AdminController extends Controller
 
     public function GetTeacher(){
         $ses = Sess::all();
-       // $course = Assigncourse::where('session_id', $id)->get();
         return view('admin.teacher-assign', compact('ses'));
     }
 
@@ -282,12 +286,79 @@ class AdminController extends Controller
         //dd($course_id);
 
         $users = DB::table('assigncourses')
-            ->select(DB::raw('section'))
+            ->select('assigncourses.section','assigncourses.teacher_id')
             ->where('session_id','=',$sid)
             ->where('course_id','=',$id)
             ->get();
+
+        $teachers = Teacher::where('id','<>', 0)->get();
         if($users){
-            return response()->json(array('section'=> $users));
+            return response()->json(array('section'=> $users,'teachers'=>$teachers));
+        }
+    }
+
+    public function StoreSectionTeacher(Request $r){
+        
+        $sid = $r->session;
+        $id = $r->course;
+        $teacher = $r->input('teacher');
+        //dd($r );
+        $obj = Assigncourse::where('session_id','=',$sid)
+                    ->where('course_id','=',$id)
+                    ->get();
+        $length = count($obj);    
+        
+         $flag = 1;
+         for($count = 0; $count<$length;$count++){ 
+             if($teacher[$count]!=""){
+                $obj[$count]->teacher_id=$teacher[$count];
+                //echo "b";
+             }
+             else{
+                $obj[$count]->teacher_id=0;
+
+             }
+
+             $obj[$count]->save();
+
+            if($obj[$count]->save()){
+            }
+            else{
+                $flag = 0;
+            }
+             
+           }
+            if($flag){
+                return redirect()->back()->with('suc_msg','successfully updated');
+            }
+            
+        }
+
+    public function SessionEnrollmentRequest(){
+        $ses = Sess::all();
+        //dd($ses);
+        // $course = Assigncourse::where('session_id', $id)->get();
+         return view('admin.temp', compact('ses'));
+
+    }
+
+    public function EnrollmentRequest(){
+        $lst=DB::table('sessions')->max('id');
+        $enroll=DB::table('assigncourses')
+            ->select('assigncourses.id', 'assigncourses.session_id', 'assigncourses.section', 'enrolls.id as enroll_id', 'enrolls.status', 'enrolls.st_id', 'enrolls.assigncourse_id', 'courses.Course_code', 'courses.Name', 'courses.semester')
+            ->join('enrolls','assigncourses.id','=','enrolls.assigncourse_id')
+            ->join('courses','assigncourses.course_id','=','courses.id')
+            ->where('assigncourses.session_id','=',$lst)
+            ->where('enrolls.status','=',0)
+            ->get();
+
+        return view('admin.temp', compact('enroll'));
+    }
+    public function ApproveEnrollmentRequest($id){
+        $user = Enroll::find($id);
+        $user->status = 1;
+        if($user->save()){
+            return redirect()->back();
         }
     }
 

@@ -1,7 +1,7 @@
 @extends('admin.layout.full')
 @section('content')
-<h2 align="center">Running Session's</h2>
-<form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
+<h2 align="center">Teacher's Assign</h2>
+<form  align="center" action="{{ url('/assign-teacher') }}" enctype="multipart/form-data" method="post">
     @csrf
     @if(Session::has('suc_msg'))
         <div align="center">
@@ -35,9 +35,15 @@
         </tr>
     </thead>
      <tbody>
-
+        
+           <tr>
+              
+             
+           </tr>
+        
     </tbody>
     </table>
+
  
     <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
     </form>
@@ -78,13 +84,28 @@
                             type: 'GET',
                             dataType: 'json',
                             success: function(response){
-                                 console.log(response);
+                                 //console.log(response);
                                  var len = response.section.length;
+                                 var len2 = response.teachers.length;
                                  console.log(len);
                                 var table_str = '<tr><th>Section</th><th>Assign Teacher</th></tr>';
                                 for(var i=0; i<len; i++){
-                                     table_str += '<td>'+response.section[i].section+'</td><td></td></tr>';
-                                    //console.log(response.section[i].section);
+                                     var tid = response.section[i].teacher_id;
+                                     table_str += '<td>'+response.section[i].section+'</td>';
+                                    
+                                     table_str += '<td><select name="teacher[]" id="teacher">'
+                                     table_str +=  '<option value="">--choose Teacher--</option>'
+                                     for(var j=0;j<len2;j++){
+                                        if(response.teachers[j].id == tid){
+                                            table_str +=  '<option value="'+response.teachers[j].id+'" selected>'+ response.teachers[j].name+'</option>'
+                                        }
+                                        else {
+                                            table_str +=  '<option value="'+response.teachers[j].id+'" >'+ response.teachers[j].name+'</option>'
+                                        }
+                                     }
+                                    
+                                     table_str += '</select></tr>'
+                                    
                                 }
                                 $("#teacherassign").html(table_str);
                                  $('#teacherassign').show();

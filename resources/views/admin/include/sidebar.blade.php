@@ -70,7 +70,7 @@
 		</li>
 
 		<li>
-			<a href="{{URL::to('get-enrollment-request')}}">Enrollment Request</a>
+			<a href="{{URL::to('enrollment')}}">Enrollment Request</a>
 		</li>
 
 		
