@@ -36,11 +36,7 @@
         </tr>
     </thead>
      <tbody id="dynamic">
-        <tr>
-            <td><input type="text" name="category[]"></td>
-            <td><input type="number" name="marks[]"></td>
-            <td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>
-        </tr>
+
         
     </tbody>
     </table>
@@ -52,8 +48,8 @@
 
         $(document).ready(function(){
 
-            $('#add_btn').on('click',function(){
-
+            $(document).on('click','#add_btn',function(){
+                //alert('ádd pressed');
                 var html = '';
                 html+='<tr>';
                 html+='<td><input type="text" name="category[]"></td>';
@@ -111,22 +107,26 @@
                                         for(var i=0; i<len; i++){
 
                                             if(i==0){
+                                                html = '';
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
-                                                html+='<td><input type="number" name="marks[]" value="'+response.users[i].marks+'"></td>';
+                                                html+='<td><input type="number" name="marks[]" id="marks" value="'+response.users[i].marks+'"></td>';
                                                 html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
                                                 html+='</tr>';
+                                                $('#dynamic').append(html);
                                             }
                                             else{
+                                                html = '';
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
-                                                html+='<td><input type="number" name="marks[]" value="'+response.users[i].marks+'"></td>';
+                                                html+='<td><input type="number" name="marks[]" id="marks" value="'+response.users[i].marks+'"></td>';
                                                 html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
                                                 html+='</tr>';
+                                                $('#dynamic').append(html);
                                             }
                                             
                                         }
-                                        $('#dynamic').append(html);
+                                        
                                         $('#teacherassign').show();
                                         $('#button').show();
                                       
@@ -135,7 +135,7 @@
                                         var html = '';
                                         html+='<tr>';
                                         html+='<td><input type="text" name="category[]"></td>';
-                                        html+='<td><input type="number" name="marks[]"></td>';
+                                        html+='<td><input type="number" name="marks[]" id="marks"></td>';
                                         html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
                                         html+='</tr>';
                                         $('#dynamic').append(html);
@@ -160,5 +160,9 @@
                 }
         });
 });
+
+
+
 </script> 
+
 @stop

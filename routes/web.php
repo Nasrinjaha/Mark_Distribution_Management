@@ -43,13 +43,13 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
     Route::get('/all-students', [AdminController::class, 'AllStudents']); 
     Route::get('/edit-student/{id}', [AdminController::class, 'EditStudent']); 
-    // Route::post('/update-student/{id}', [AdminController::class, 'UpdateStudent']); 
+    Route::post('/update-student/{id}', [AdminController::class, 'UpdateStudent']); 
     Route::get('/delete-student/{id}', [AdminController::class, 'DeleteStudent']); 
 
     Route::get('/all-teachers', [AdminController::class, 'AllTeachers']); 
     //Route::get('/edit-teacher', [AdminController::class, 'EditTeacher']); 
     Route::get('/edit-teacher/{id}', [AdminController::class, 'EditTeacher']); 
-    // Route::post('/update-teacher/{id}', [AdminController::class, 'UpdateTeacher']); 
+    Route::post('/update-teacher/{id}', [AdminController::class, 'UpdateTeacher']); 
     Route::get('/delete-teacher/{id}', [AdminController::class, 'DeleteTeacher']); 
   
     //Route::get('/check', [AdminController::class, 'check']);
@@ -66,8 +66,17 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/get-assign-course/{id}', [AdminController::class, 'getAssignCourse']);
     Route::get('/get-section/{id}{session_id}', [AdminController::class, 'getSection']);
 
-    Route::post('/assign-teacher', [AdminController::class,'StoreTeacher']);
+    Route::post('/assign-teacher', [AdminController::class,'StoreSectionTeacher']);
     Route::get('/check/{id}', [AdminController::class, 'getAssignCourse']);
+
+
+
+    Route::get('/enrollment', [AdminController::class, 'SessionEnrollmentRequest']);
+    Route::get('/session-enrollment', [AdminController::class, 'EnrollmentRequest']);
+    Route::get('/enroll-approve', [AdminController::class, 'ApproveEnrollmentRequest']);
+
+
+
 
 
     
