@@ -201,8 +201,8 @@ class AlternateAdminController extends Controller
             ->where('assigncourses.session_id','=',$lst)
             ->where('enrolls.status','=',0)
             ->get();
-
-        return view('admin.enroll-request', compact('enroll'));
+        $cnt=count($enroll);
+        return view('admin.enroll-request', compact(['enroll','cnt']));
     }
     public function AppEnrollreq($id){
         $obj =Enroll::find($id);
