@@ -15,20 +15,6 @@
         Create Student
     </div>
     <div class="card-body">
-
-        <form action="" align="center">
-            @csrf
-            <br>
-            <div class="form-group">
-                <label class="col-form-label-sm" for="">Name:</label>
-                <input type="text" class="form-control-sm">
-            </div>
-            <div class="form-group">
-                <label class="col-form-label-sm" for="">Email:</label>
-                <input type="text" class="form-control-sm">
-            </div>
-        
-        </form>
     </div>
 </div>
 @stop

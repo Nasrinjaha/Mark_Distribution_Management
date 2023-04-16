@@ -102,6 +102,12 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::get('/get-teacherassign-course/{id}',[TeacherController::class,'getTeacherAssignCourse']);
     Route::post('/mark-distribution',[TeacherController::class,'MarkDistribution']);
     Route::get('/distributed-course/{id}',[TeacherController::class,'DistributedCourse']);
+    Route::get('/get-students',[TeacherController::class,'getStudent']);
+    Route::get('/student-marks-assign/{cid}',[TeacherController::class,'assignStudent']);
+    Route::post('/store-student-marks',[TeacherController::class,'storeMarks']);
+
+
+
 
 });
 

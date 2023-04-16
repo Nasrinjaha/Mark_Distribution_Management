@@ -233,9 +233,12 @@ class AdminController extends Controller
                             ->groupBy('course_id')
                             ->get();
          
+
+        $allcourses = Course::all();
+                            
                                
         if($users){
-            return response()->json(['users'=> $users]);
+            return response()->json(['users'=> $users,'allcourses'=>$allcourses]);
         }
          
     }
