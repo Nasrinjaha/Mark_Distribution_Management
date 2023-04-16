@@ -53,6 +53,8 @@
             $("#session").change(function(){
                 
                 var session_id = $(this).val();
+                //$('#course_table').remove();
+
                 if(session_id!=" "){
                     //$('#course_table').reload()
                     //$('#course_table').empty();
@@ -66,9 +68,19 @@
                             $('#button').show();
                             console.log(response.users);
                             var len = response.users.length;
+                            var len2 = response.allcourses.length;
+                            for(var i=0; i<len2; i++){
+                               
+                                var course = "#checkbox"+ response.allcourses[i].id;
+                                $(course).prop('checked',false);
+                                var section = "#section"+response.allcourses[i].id;
+                                $(section).val(" ");
+
+                            }
+                            
                             for(var i=0; i<len; i++){
                                 var course = "#checkbox"+ response.users[i].course_id;
-                                $(course).attr('checked', 'checked');
+                                $(course).prop('checked',true);
                                 var section = "#section"+response.users[i].course_id;
                                 $(section).val(response.users[i].total);
 

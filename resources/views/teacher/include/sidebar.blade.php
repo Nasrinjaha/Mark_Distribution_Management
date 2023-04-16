@@ -29,7 +29,7 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#">Portfolio</a>
+			<a href="{{URL::to('get-students')}}">Assign Marks</a>
 		</li>
 		<li>
 			<a href="#">Contact</a>
