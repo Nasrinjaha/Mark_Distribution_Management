@@ -135,22 +135,23 @@ class TeacherController extends Controller
             array_push($num_list, $cat);
        }
 
-
        for($i=0;$i<count($student_id);$i++){
-            $sum = 0;
+            Assignmark::where('st_id', $student_id[$i])->delete();
             for($j=0;$j<$cnt;$j++){
                 $obj = new Assignmark();
                 $obj->st_id = $student_id[$i]; 
                 $obj->ac_id = $course;
                 $obj->cat_id =  $category[$j]->id;
                 if($num_list[$j][$i]==""){
-                    $obj->marks=0;
+                    continue;
                 }
                 else{
+
                     $checkcatnum = Markdistribution::where('id', $category[$j]->id)
                                                 ->select('*')
                                                 ->get();
-                    if($num_list[$j][$i]>$checkcatnum->marks){
+                   // dd($checkcatnum[0]->marks);
+                    if($num_list[$j][$i]>$checkcatnum[0]->marks){
                         return redirect()->back()->with('err_msg','undefined marks distribution');
                     }
                     else{
