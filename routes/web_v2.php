@@ -39,6 +39,7 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/all-course', [AlternateAdminController::class, 'Allcourse']);
     Route::get('/edit-course/{id}', [AlternateAdminController::class, 'EditCourse']); 
     Route::post('/update-course/{id}', [AlternateAdminController::class, 'UpdateCourse']);
+    Route::get('/delete-crc/{id}', [AlternateAdminController::class, 'DeleteCourse']);
 
     Route::get('/session', [AlternateAdminController::class, 'Session']); 
     Route::get('/start-session', [AlternateAdminController::class, 'StartSession']); 
@@ -52,7 +53,7 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/get-teacher2', [AlternateAdminController::class,'GetTeacher']);
     Route::get('/get-course-data/{course_id}', [AlternateAdminController::class, 'getcoursedata']);
 
-    Route::get('/get-enrollment-request', [AlternateAdminController::class, 'Enrollreq']);
+    Route::get('/enrollment', [AlternateAdminController::class, 'Enrollreq']);
     Route::get('/apprve/{id}', [AlternateAdminController::class, 'AppEnrollreq']);
 
 });

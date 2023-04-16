@@ -32,7 +32,7 @@
                                 <td>{{ $enroll->semester }}</td>
                                 <td>{{ $enroll->section }}</td>
                                 <td>
-                                    <form method="POST" action="{{ url('apprve/'.$enroll->enroll_id) }}">
+                                    <form method="get" action="{{ url('apprve/'.$enroll->enroll_id) }}">
                                         @csrf
                                         <button type="submit">Approve</button>
                                     </form>

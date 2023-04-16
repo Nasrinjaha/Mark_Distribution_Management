@@ -20,7 +20,7 @@
                             <center><img src="{{ asset('thumbnail/'.$teacher->img)  }}" alt=""></center>
                             <br>
                             @if(Session::has('suc_msg'))
-                            <div class="row 4 haha">
+                            <div align="center">
                                 <div class="alert alert-success">
                                     <strong>{{Session::get('suc_msg')}}</strong> 
                                 </div>
@@ -31,7 +31,7 @@
                                 <input type="text" name="pass1" class="form-control-sm">
                             </div>
                             @if(Session::has('dup_msg1'))
-                            <div class="row 4 haha">
+                            <div align="center">
                                 <div class="alert alert-warning ">
                                     <strong>{{Session::get('dup_msg1')}}</strong> 
                                 </div>

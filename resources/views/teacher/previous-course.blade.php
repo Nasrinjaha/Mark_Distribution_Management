@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('teacher.include.header')
+@include('admin.include.header2')
+
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
-     @include('teacher.include.sidebar')
+     @include('admin.include.sidebar')
         <div id="content" class="p-4 p-md-5">
-            @include('teacher.include.navbar')
+            @include('admin.include.navbar')
+                
                 <div style=" margin-top: 50px">
-                    <table id="Axample" class="table table-striped table-bordered " style="width:100%;">
+                    <table id="example" class="table table-striped table-bordered " style="width:100%;">
                         <thead>
                             <tr>
                                 <th>Session</th>
@@ -43,6 +45,6 @@
 </html>
 <script>
     $(document).ready(function () {
-        $('#Axample').DataTable();
+        $('#example').DataTable();
     });
 </script>

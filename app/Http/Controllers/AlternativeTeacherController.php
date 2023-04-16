@@ -39,7 +39,7 @@ class AlternativeTeacherController extends Controller
         $obj->dob = $dob;
         $obj->address = $address;
         if($obj->save()){
-           return redirect('/edit-teacher-info');
+           return redirect('/edit-teacher-info')->with('suc_msg','Information Successfully Updated!!!!!');;
         }
     }
     public function EditPass(){
@@ -62,7 +62,7 @@ class AlternativeTeacherController extends Controller
         $obj = Teacher::find($id);
         $obj->pass = $new;
         if($obj->save()){
-            return redirect('/edit-teacher-password');
+            return redirect('/edit-teacher-password')->with('suc_msg','Password Successfully Updated!!!!!');;
          }
     }
 

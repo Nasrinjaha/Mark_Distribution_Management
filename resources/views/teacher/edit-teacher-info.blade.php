@@ -25,7 +25,7 @@
                             </div>
                             <br>
                             @if(Session::has('suc_msg'))
-                            <div class="row 4 haha">
+                            <div align="center">
                                 <div class="alert alert-success">
                                     <strong>{{Session::get('suc_msg')}}</strong> 
                                 </div>
