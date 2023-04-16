@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Assigncourse;
 use App\Models\Section;
 use App\Models\Markdistribution;
+use App\Models\Assignmark;
 
 use Illuminate\Http\Request;
 use Session;
@@ -89,9 +90,79 @@ class TeacherController extends Controller
         
         //dd($users);
         if($users){
+
             return response()->json(array('users'=> $users));
         }
 
 
+    }
+
+    public function getStudent(){
+        $ses = Sess::all();
+        return view('teacher.assign-marks',compact('ses'));
+    }
+    public function assignStudent($cid){
+        $tid = Session::get('id');
+       // echo $tid;
+        $users=DB::table('enrolls')
+            ->select('enrolls.st_id','students.name as name','enrolls.id')
+            ->join('students','enrolls.st_id','=','students.id')
+            ->where('enrolls.assigncourse_id','=',$cid)
+            ->get();
+        //dd($users);
+
+        $category = Markdistribution::where('ac_id', $cid)
+                            ->select('*')
+                            ->get();  
+                               
+        if($users){
+            return response()->json(array('users'=> $users,'category'=>$category));
+        }
+    }
+    public function storeMarks(Request $r){
+        //dd($r);
+        $course = $r->course;
+        $student_id =  $r->student;
+        $category = Markdistribution::where('ac_id', $course)
+            ->select('*')
+            ->get();
+        $cnt = count( $category);
+        $num_list = array();
+       foreach($category as $c){
+            $cat = $c->category;
+            
+            $cat = $r->input($cat);
+            array_push($num_list, $cat);
+       }
+
+
+       for($i=0;$i<count($student_id);$i++){
+            $sum = 0;
+            for($j=0;$j<$cnt;$j++){
+                $obj = new Assignmark();
+                $obj->st_id = $student_id[$i]; 
+                $obj->ac_id = $course;
+                $obj->cat_id =  $category[$j]->id;
+                if($num_list[$j][$i]==""){
+                    $obj->marks=0;
+                }
+                else{
+                    $checkcatnum = Markdistribution::where('id', $category[$j]->id)
+                                                ->select('*')
+                                                ->get();
+                    if($num_list[$j][$i]>$checkcatnum->marks){
+                        return redirect()->back()->with('err_msg','undefined marks distribution');
+                    }
+                    else{
+                        $obj->marks=$num_list[$j][$i];
+                    }
+                    
+                }
+                $obj->save();
+            }
+       }
+       return redirect()->back()->with('suc_msg','successfully inserted');
+
+               
     }
 }
