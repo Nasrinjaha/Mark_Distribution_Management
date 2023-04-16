@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Session;
 use App\Models\Assigncourse;
 use App\Models\Enroll;
+use App\Models\Student;
 use Image;
 use DB;
 class AlternateAdminController extends Controller
@@ -93,6 +94,15 @@ class AlternateAdminController extends Controller
            return redirect('/all-course');
           // echo "updated";
         }
+    }
+    public function DeleteCourse($id){
+        $course = Course::find($id);
+
+        DB::table('courses')
+            ->where('id', '=', $id)
+            ->delete();
+
+        return redirect('/all-course');
     }
     public function assignCourse(Request $r){
         //dd($r);
@@ -195,11 +205,12 @@ class AlternateAdminController extends Controller
         return view('admin.enroll-request', compact('enroll'));
     }
     public function AppEnrollreq($id){
-        $user = Enroll::find($id);
-        $user->status = 1;
-        if($user->save()){
+        $obj =Enroll::find($id);
+        $obj->status = 1;
+        if($obj->save()){
             return redirect()->back();
         }
     }
+
 
 }

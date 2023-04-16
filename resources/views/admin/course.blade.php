@@ -75,8 +75,11 @@
             
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
+                                                <form align="center" action="{{url('delete-crc/'.$crc->id)}}" enctype="multipart/form-data" method="get">
+                                                    {{ csrf_field() }}
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                <a href="{{ url('delete-crc/'.$crc->id) }}" class="btn btn-success">Yes</a>
+                                                <button type="submit"  name = "submit" class="btn btn-success">Yes</button>
+                                                </form>
                                             </div>
         
                                         </div>
