@@ -166,4 +166,20 @@ class TeacherController extends Controller
 
                
     }
+
+    public function getStudentAssignMarks($sid,$catid,$acid){
+       //dd($sid);
+       $users=DB::table('assignmarks')
+            ->select('marks')
+            ->where('st_id','=',$sid)
+            ->where('cat_id','=',$catid)
+            ->where('ac_id','=',$acid)
+            ->first();
+        if($users){
+            return response()->json(array('assignmarks'=> $users->marks));
+        }
+        
+
+
+    }
 }
