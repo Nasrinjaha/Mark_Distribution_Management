@@ -71,7 +71,7 @@
                         type: 'GET',
                         dataType: 'json',
                         success: function(response){
-                            console.log(response.users);
+                            //console.log(response.users);
                             var len = response.users.length;
                             str = '<option value="">--Choose Course--</option>';
                             for(var i=0; i<len; i++){
@@ -94,7 +94,7 @@
                                 type: 'GET',
                                 dataType: 'json',
                                 success: function(response){
-                                    console.log(response.users);
+                                    //console.log(response.users);
                                     var len = response.users.length;
                                     //console.log(len);
                                     var len2 = response.category.length;
@@ -114,11 +114,42 @@
                                             html+='<tr>';
                                             html+= '<td>'+response.users[i].st_id +'</td>';
                                             html+='<td>'+response.users[i].name +'</td>';
+                                            var tmark=0;
+                                            var not = 0;
                                             for(var j=0; j<len2; j++){
+                                               
+                                                var marks='';
+                                                $.ajax({
+                                                    url: 'http://127.0.0.1:8000/get-student-marks-assign/'+response.users[i].st_id+'/'+response.category[j].id+'/'+id,
+                                                    type: 'GET',
+                                                    async: false,
+                                                    dataType: 'json',
+                                                    success: function(std_response){
+                                                        //console.log(std_response.assignmarks); 
+                                                        
+                                                        marks=std_response.assignmarks;
+                                                        if(marks!=" "){
+                                                            tmark+=marks;
+                                                        }
+                                                        else{
+                                                            not+=1;
+                                                        }
+                                                        
+                                                        
+                                                    }
+                                                });
+                                                //alert(marks);
+                                                html+='<td><input type="number" id='+ response.users[i].st_id+'/'+response.category[j].marks+'/'+i+'/'+j+' name="'+response.category[j].category+'[]" value="'+marks+'"> / '+response.category[j].marks+'</td>';
 
-                                                html+='<td><input type="text" name="'+response.category[j].category+'[]"></td>';
+                                                
                                             }
-                                            html+='<td><input type="text" name="total[]"></td>';
+                                            console.log(not);
+                                            if(not==len2){
+                                                html+='<td>not assigned yet</td>';
+                                            }
+                                            else{
+                                                html+='<td>'+tmark+' / 100</td>';
+                                            }
                                             html+='<td><input type="hidden" name="student[]" value='+ response.users[i].st_id +'></td>';
                                             html+='</tr>';
                                         }

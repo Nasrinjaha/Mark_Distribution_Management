@@ -1,52 +1,60 @@
-@extends('admin.layout.full')
-@section('content')
-<h2 align="center">Teacher's Assign</h2>
-<form  align="center" action="{{ url('/assign-teacher') }}" enctype="multipart/form-data" method="post">
-    @csrf
-    @if(Session::has('suc_msg'))
-        <div align="center">
-            <div class="alert alert-success">
-                <strong>{{Session::get('suc_msg')}}</strong> 
-            </div>
-        </div>  
-     @endif
-    <select name = "session"  class="form-control"  id="session">
-    <option value=" ">--Choose Session--</option>
-        @foreach($ses as $s)
-            @if($s->Status)
-                <ul>
-                    <option value="{{$s->id}}">{{$s->Session_name}}</option>
-                </ul>
-            @endif
-        @endforeach
-    </select>
-    <br>
-    <select name = "course"  class="form-control"  id="course">
-        <option value="">--Choose Course--</option>
-    </select>
- 
-   <br>
-     
-   <table id="teacherassign" class="table table-striped table-bordered" style="width:100%;">
-    <thead>
-        <tr>
-            <th>Section</th>
-            <th>Assign Teacher</th>
-        </tr>
-    </thead>
-     <tbody>
-        
-           <tr>
-              
-             
-           </tr>
-        
-    </tbody>
-    </table>
-
- 
-    <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @include('admin.include.header2')
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+     @include('admin.include.sidebar')
+        <div id="content" class="p-4 p-md-5">
+            @include('admin.include.navbar')
+                <div>
+                    <h2 align="center">Teacher's Assign</h2>
+                    <form  align="center" action="{{ url('/assign-teacher') }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        @if(Session::has('suc_msg'))
+                            <div align="center">
+                                <div class="alert alert-success">
+                                    <strong>{{Session::get('suc_msg')}}</strong> 
+                                </div>
+                            </div>  
+                        @endif
+                        <select name = "session"  class="form-control"  id="session">
+                        <option value=" ">--Choose Session--</option>
+                            @foreach($ses as $s)
+                                @if($s->Status)
+                                    <ul>
+                                        <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                                    </ul>
+                                @endif
+                            @endforeach
+                        </select>
+                        <br>
+                        <select name = "course"  class="form-control"  id="course">
+                            <option value="">--Choose Course--</option>
+                        </select>
+                    
+                        <br>
+                            
+                        <table id="teacherassign" class="table table-striped table-bordered" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Assign Teacher</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>     
+                                </tr> 
+                            </tbody>
+                        </table>
+                    <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                    </form>
+                </div>
+            </div>  
+        </div>     
+    </body>
+</html>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -139,4 +147,3 @@
         
 });
 </script> 
-@stop
