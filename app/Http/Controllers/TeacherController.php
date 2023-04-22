@@ -108,6 +108,7 @@ class TeacherController extends Controller
             ->select('enrolls.st_id','students.name as name','enrolls.id')
             ->join('students','enrolls.st_id','=','students.id')
             ->where('enrolls.assigncourse_id','=',$cid)
+            ->where('enrolls.status','=',1)
             ->get();
         //dd($users);
 
@@ -121,48 +122,76 @@ class TeacherController extends Controller
     }
     public function storeMarks(Request $r){
         //dd($r);
-        $course = $r->course;
-        $student_id =  $r->student;
-        $category = Markdistribution::where('ac_id', $course)
-            ->select('*')
-            ->get();
-        $cnt = count( $category);
-        $num_list = array();
-       foreach($category as $c){
-            $cat = $c->category;
+        $eti=$r->eti;
+        $marks= $r->marks;
+        $arr = explode('-',eti);
+        $std_id = $arr[0];
+        $cat_id = $arr[1];
+        $ac_id = $arr[2];
+
+        $data = Assignmark::where('st_id','=',$std_id)
+                ->where('cat_id','=',$cat_id)
+                ->where('ac_id','=',$ac_id)
+                ->first();
+        if($data){
+            $data->delete();
+        }
+        $obj = new Assignmark();
+                $obj->st_id = $std_id; 
+                $obj->ac_id = $cat_id;
+                $obj->cat_id =  $ac_id;
+
+        if($obj->save()){
+            return response()->json([
+                'msg' => 'Successfully Inserted',
+              
+            ]);
+        }
+        //return redirect()->back()->with('ERR_msg','FAILED');
+
+
+    //     $course = $r->course;
+    //     $student_id =  $r->student;
+    //     $category = Markdistribution::where('ac_id', $course)
+    //         ->select('*')
+    //         ->get();
+    //     $cnt = count( $category);
+    //     $num_list = array();
+    //    foreach($category as $c){
+    //         $cat = $c->category;
             
-            $cat = $r->input($cat);
-            array_push($num_list, $cat);
-       }
+    //         $cat = $r->input($cat);
+    //         array_push($num_list, $cat);
+    //    }
 
-       for($i=0;$i<count($student_id);$i++){
-            Assignmark::where('st_id', $student_id[$i])->delete();
-            for($j=0;$j<$cnt;$j++){
-                $obj = new Assignmark();
-                $obj->st_id = $student_id[$i]; 
-                $obj->ac_id = $course;
-                $obj->cat_id =  $category[$j]->id;
-                if($num_list[$j][$i]==""){
-                    continue;
-                }
-                else{
+    //    for($i=0;$i<count($student_id);$i++){
+    //         Assignmark::where('st_id', $student_id[$i])->delete();
+    //         for($j=0;$j<$cnt;$j++){
+    //             $obj = new Assignmark();
+    //             $obj->st_id = $student_id[$i]; 
+    //             $obj->ac_id = $course;
+    //             $obj->cat_id =  $category[$j]->id;
+    //             if($num_list[$j][$i]==""){
+    //                 continue;
+    //             }
+    //             else{
 
-                    $checkcatnum = Markdistribution::where('id', $category[$j]->id)
-                                                ->select('*')
-                                                ->get();
-                   // dd($checkcatnum[0]->marks);
-                    if($num_list[$j][$i]>$checkcatnum[0]->marks){
-                        return redirect()->back()->with('err_msg','undefined marks distribution');
-                    }
-                    else{
-                        $obj->marks=$num_list[$j][$i];
-                    }
+    //                 $checkcatnum = Markdistribution::where('id', $category[$j]->id)
+    //                                             ->select('*')
+    //                                             ->get();
+    //                // dd($checkcatnum[0]->marks);
+    //                 if($num_list[$j][$i]>$checkcatnum[0]->marks){
+    //                     return redirect()->back()->with('err_msg','undefined marks distribution');
+    //                 }
+    //                 else{
+    //                     $obj->marks=$num_list[$j][$i];
+    //                 }
                     
-                }
-                $obj->save();
-            }
-       }
-       return redirect()->back()->with('suc_msg','successfully inserted');
+    //             }
+    //             $obj->save();
+    //         }
+    //    }
+    //    return redirect()->back()->with('suc_msg','successfully inserted');
 
                
     }

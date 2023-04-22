@@ -1,73 +1,113 @@
-@extends('teacher.layout.full')
-@section('content')
-<h2 align="center">Mark Distribution</h2>
-<form  align="center" action="{{ url('/mark-distribution') }}" enctype="multipart/form-data" method="post">
-    @csrf
-    @if(Session::has('suc_msg'))
-        <div align="center">
-            <div class="alert alert-success">
-                <strong>{{Session::get('suc_msg')}}</strong> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @include('teacher.include.header')
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+     @include('teacher.include.sidebar')
+        <div id="content" class="p-4 p-md-5">
+            @include('teacher.include.navbar')
+            <div> 
+                <h2 align="center">Mark Distribution</h2>
+                <form  align="center" action="{{ url('/mark-distribution') }}" enctype="multipart/form-data" method="post">
+                    @csrf
+                    @if(Session::has('suc_msg'))
+                        <div align="center">
+                            <div class="alert alert-success">
+                                <strong>{{Session::get('suc_msg')}}</strong> 
+                            </div>
+                        </div>  
+                    @endif
+                    @if(Session::has('err_msg'))
+                        <div align="center">
+                            <div class="alert alert-danger">
+                                <strong>{{Session::get('err_msg')}}</strong> 
+                            </div>
+                        </div>  
+                    @endif
+                    <select name = "session"  class="form-control"  id="session">
+                    <option value=" ">--Choose Session--</option>
+                        @foreach($ses as $s)
+                            @if($s->Status)
+                                <ul>
+                                    <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                                </ul>
+                            @endif
+                        @endforeach
+                    </select>
+                    <br>
+                    <select name = "course"  class="form-control"  id="course">
+                        <option value="">--Choose Course--</option>
+                    </select>
+                
+                    <br>
+                        
+                    <table id="teacherassign" class="table table-striped table-bordered" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Marks</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dynamic">  
+                        </tbody>
+                    </table>
+                   <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                </form>
+                </div>
             </div>
-        </div>  
-     @endif
-     @if(Session::has('err_msg'))
-        <div align="center">
-            <div class="alert alert-danger">
-                <strong>{{Session::get('err_msg')}}</strong> 
-            </div>
-        </div>  
-     @endif
-    <select name = "session"  class="form-control"  id="session">
-    <option value=" ">--Choose Session--</option>
-        @foreach($ses as $s)
-            @if($s->Status)
-                <ul>
-                    <option value="{{$s->id}}">{{$s->Session_name}}</option>
-                </ul>
-            @endif
-        @endforeach
-    </select>
-    <br>
-    <select name = "course"  class="form-control"  id="course">
-        <option value="">--Choose Course--</option>
-    </select>
- 
-   <br>
-     
-   <table id="teacherassign" class="table table-striped table-bordered" style="width:100%;">
-    <thead>
-        <tr>
-            <th>Category Name</th>
-            <th>Marks</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-     <tbody id="dynamic">
-
-        
-    </tbody>
-    </table>
- 
-    <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
-    </form>
+        </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script type="text/javascript">
-
+        
         $(document).ready(function(){
+            var sum = 0;
+            var temp=0;
+            $('#button').hide();
+            $(document).keyup(function (event) {
 
+                //temp = $('#'+event.target.id).val();
+                temp = $(event.target).val();
+
+            });
+            
             $(document).on('click','#add_btn',function(){
-                //alert('ádd pressed');
+                console.log(temp);
+               sum=sum+temp;
+               temp=0;
                 var html = '';
                 html+='<tr>';
-                html+='<td><input type="text" name="category[]"></td>';
-                html+='<td><input type="number" name="marks[]"></td>';
+                html+='<td><input id="cat" type="text" name="category[]"></td>';
+                html+='<td><input id="mark" type="number" name="marks[]"></td>';
                 html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
                 html+='</tr>';
                 $('#dynamic').append(html);
+                if(this.sum==100){
+                    $('#button').show();
+                }
+                else{
+                    $('#button').hide();
+                }
+                //console.log(add);
+                console.log(this.sum);
 
             });
             $(document).on('click','#rmv_btn',function(){
+                //alert($(this).children('#mark').val());
+                var rmv = $(this).closest('tr').children().children('#mark').val();
+                this.sum = this.sum-rmv;
                 $(this).closest('tr').remove();
+                if(this.sum==100){
+                    $('#button').show();
+                }
+                else{
+                    $('#button').hide();
+                }
+                console.log(rmv);
+                console.log(this.sum);
+                
 
             });
             $('#teacherassign').hide();
@@ -141,7 +181,7 @@
                                         }
                                         
                                         $('#teacherassign').show();
-                                        $('#button').show();
+                                        //$('#button').show();
                                       
                                     }
                                     else{
@@ -154,7 +194,7 @@
                                         html+='</tr>';
                                         $('#dynamic').append(html);
                                         $('#teacherassign').show();
-                                        $('#button').show();
+                                        //$('#button').show();
                                     }
                                 }
                             });
@@ -174,9 +214,5 @@
                 }
         });
 });
-
-
-
-</script> 
-
-@stop
+</script>
+<script src="js/main.js"></script> 

@@ -47,12 +47,9 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/delete-student/{id}', [AdminController::class, 'DeleteStudent']); 
 
     Route::get('/all-teachers', [AdminController::class, 'AllTeachers']); 
-    //Route::get('/edit-teacher', [AdminController::class, 'EditTeacher']); 
     Route::get('/edit-teacher/{id}', [AdminController::class, 'EditTeacher']); 
     Route::post('/update-teacher/{id}', [AdminController::class, 'UpdateTeacher']); 
     Route::get('/delete-teacher/{id}', [AdminController::class, 'DeleteTeacher']); 
-  
-    //Route::get('/check', [AdminController::class, 'check']);
 
     Route::get('/get-course', [AdminController::class, 'getCourse']); 
     Route::post('/assign-course', [AdminController::class, 'assignCourse']);
@@ -63,7 +60,7 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::post('/store-section', [AdminController::class, 'StoreSection']);
 
     Route::get('/get-teacher', [AdminController::class,'GetTeacher']);
-    Route::get('/get-assign-course/{id}', [AdminController::class, 'getAssignCourse']);
+    Route::get('/get-assign-course/{id}{semester}', [AdminController::class, 'getAssignCourse']);
     Route::get('/get-section/{id}{session_id}', [AdminController::class, 'getSection']);
 
     Route::post('/assign-teacher', [AdminController::class,'StoreSectionTeacher']);
@@ -100,8 +97,10 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::get('/teacher-dashboard',[TeacherController::class,'dashboard']); 
     Route::get('/teacher-current-course',[TeacherController::class,'getCourse']);
     Route::get('/get-teacherassign-course/{id}',[TeacherController::class,'getTeacherAssignCourse']);
+
     Route::post('/mark-distribution',[TeacherController::class,'MarkDistribution']);
     Route::get('/distributed-course/{id}',[TeacherController::class,'DistributedCourse']);
+
     Route::get('/get-students',[TeacherController::class,'getStudent']);
     Route::get('/student-marks-assign/{cid}',[TeacherController::class,'assignStudent']);
     Route::post('/store-student-marks',[TeacherController::class,'storeMarks']);

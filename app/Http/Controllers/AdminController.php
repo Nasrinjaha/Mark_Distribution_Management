@@ -8,6 +8,7 @@ use App\Models\Session as Sess;
 use App\Models\Course;
 use App\Models\Assigncourse;
 use App\Models\Section;
+use App\Models\Semester;
 
 use Illuminate\Http\Request;
 use Session;
@@ -266,15 +267,18 @@ class AdminController extends Controller
 
     public function GetTeacher(){
         $ses = Sess::all();
-        return view('admin.teacher-assign', compact('ses'));
+        $semester= Semester::all();
+        return view('admin.teacher-assign', compact('ses','semester'));
     }
 
-    public function getAssignCourse($id){
+    public function getAssignCourse($id,$sid){
         //$users = Assigncourse::where('session_id', $id)->get();
-
+       //dd($sid);
         $users = DB::table('assigncourses')
             ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+            ->join('semesters', 'courses.semester', '=', 'semesters.id')
             ->where('assigncourses.session_id','=',$id)
+            ->where('courses.semester','=',$sid)
             ->select('courses.*')
             ->distinct()//section concate
             ->get();
