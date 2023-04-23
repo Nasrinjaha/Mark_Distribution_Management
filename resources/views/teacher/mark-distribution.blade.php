@@ -74,39 +74,46 @@
             });
             
             $(document).on('click','#add_btn',function(){
-                console.log(temp);
-               sum=sum+temp;
+                //console.log(temp);
+               sum+= parseInt(temp);
                temp=0;
-                var html = '';
-                html+='<tr>';
-                html+='<td><input id="cat" type="text" name="category[]"></td>';
-                html+='<td><input id="mark" type="number" name="marks[]"></td>';
-                html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
-                html+='</tr>';
-                $('#dynamic').append(html);
-                if(this.sum==100){
+               console.log(sum);
+               if(sum==100){
                     $('#button').show();
+                    //continue;
+                }
+                else if(sum>100){
+                    alert('greater than hundred!!!');
                 }
                 else{
                     $('#button').hide();
+                    var html = '';
+                    html+='<tr>';
+                    html+='<td><input id="cat" type="text" name="category[]"></td>';
+                    html+='<td><input id="mark" type="number" name="marks[]"></td>';
+                    html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
+                    html+='</tr>';
+                    $('#dynamic').append(html);
                 }
+                
+                
                 //console.log(add);
-                console.log(this.sum);
+                //console.log(sum);
 
             });
             $(document).on('click','#rmv_btn',function(){
                 //alert($(this).children('#mark').val());
                 var rmv = $(this).closest('tr').children().children('#mark').val();
-                this.sum = this.sum-rmv;
+                sum = sum-rmv;
                 $(this).closest('tr').remove();
-                if(this.sum==100){
+                if(sum==100){
                     $('#button').show();
                 }
                 else{
                     $('#button').hide();
                 }
                 console.log(rmv);
-                console.log(this.sum);
+               // console.log(this.sum);
                 
 
             });

@@ -33,7 +33,7 @@ Route::middleware(['IsLoggedin'])->group(function (){
 });
 Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
-    Route::get('/admin-dashboard', [AdminController::class,'dashboard']); 
+    Route::get('/admin-dashboardd', [AdminController::class,'dashboard']); 
 
     Route::get('/create-teacher', [AdminController::class,'CreateTeacher']); 
     Route::post('/store-teacher', [AdminController::class, 'StoreTeacher']); 

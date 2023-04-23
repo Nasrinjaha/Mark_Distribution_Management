@@ -206,19 +206,7 @@ class AdminController extends Controller
                 $obj->session_id=$sessionid;
                 $obj->course_id=$course[$count];
                 $obj->teacher_id=0;
-                if($i==$section-1 & $section%2==1){
-                    $ss = $v;
-                }
-                else{
-                    if($i%2==1){
-                        $ss = $v.'2';
-                        $v++;
-                    }
-                    else{
-                        $ss = $v.'1';
-                    }
-                }
-                $obj->section=$ss;
+                $obj->section=0;
                 if($obj->save()){
                 }
                 else{
@@ -308,6 +296,8 @@ class AdminController extends Controller
         
         $sid = $r->session;
         $id = $r->course;
+        $section=$r->input('section');
+       //dd($section);
         $teacher = $r->input('teacher');
         //dd($r );
         $obj = Assigncourse::where('session_id','=',$sid)
@@ -318,6 +308,7 @@ class AdminController extends Controller
          $flag = 1;
          for($count = 0; $count<$length;$count++){ 
              if($teacher[$count]!=""){
+               
                 $obj[$count]->teacher_id=$teacher[$count];
                 //echo "b";
              }
@@ -325,7 +316,7 @@ class AdminController extends Controller
                 $obj[$count]->teacher_id=0;
 
              }
-
+             $obj[$count]->section=$section[$count];
              $obj[$count]->save();
 
             if($obj[$count]->save()){

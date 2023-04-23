@@ -54,6 +54,9 @@
 				<li>
 					<a href="{{URL::to('create-section')}}">Create New Section</a>
 				</li>
+				<li>
+					<a href="{{URL::to('create-semester')}}">Create New Semester</a>
+				</li>
 			</ul>
 		</li>
 
