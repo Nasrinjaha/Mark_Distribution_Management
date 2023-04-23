@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlternateAdminController;
 use App\Http\Controllers\AlternativeTeacherController;
 
@@ -33,6 +34,10 @@ Route::middleware(['IsLoggedin'])->group(function (){
 });
 Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
+    Route::get('/admin-dashboard', [AdminController::class,'dashboard']); 
+    Route::get('/admin-dashboardd', [AlternateAdminController::class,'dashboardd']);
+    Route::get('/admin-profile', [AlternateAdminController::class,'AdminProfile']); 
+
     Route::get('create-course', [AlternateAdminController::class,'CreateCourse']); 
     Route::post('/store-course', [AlternateAdminController::class, 'StoreCourse']);
 
@@ -40,6 +45,18 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/edit-course/{id}', [AlternateAdminController::class, 'EditCourse']); 
     Route::post('/update-course/{id}', [AlternateAdminController::class, 'UpdateCourse']);
     Route::get('/delete-crc/{id}', [AlternateAdminController::class, 'DeleteCourse']);
+    Route::get('/downloadcoursepdf/{id}',[AlternateAdminController::class,'downloadCoursepdf'])->name('view-pdf');
+    Route::get('/viewcoursepdf/{id}',[AlternateAdminController::class,'viewCoursepdf'])->name('download-pdf');
+
+    Route::get('/downloadteacherpdf/{id}',[AlternateAdminController::class,'downloadTeacherpdf'])->name('view-pdf');
+    Route::get('/viewteacherpdf/{id}',[AlternateAdminController::class,'viewTeacherepdf'])->name('download-pdf');
+
+    Route::get('/downloadStudentpdf/{id}',[AlternateAdminController::class,'downloadStudentpdf'])->name('view-pdf');
+    Route::get('/viewStudentpdf/{id}',[AlternateAdminController::class,'viewStudentepdf'])->name('download-pdf');
+
+    Route::get('/export-course-excel',[AlternateAdminController::class,'course_execel_crt']);
+    Route::get('/export-teacher-excel',[AlternateAdminController::class,'teacher_execel_crt']);
+    Route::get('/export-student-excel',[AlternateAdminController::class,'student_execel_crt']);
 
     Route::get('/session', [AlternateAdminController::class, 'Session']); 
     Route::get('/start-session', [AlternateAdminController::class, 'StartSession']); 
@@ -68,6 +85,7 @@ Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
 
     Route::get('/teacher-dashboard', [AlternativeTeacherController::class,'dashboard']); 
+    Route::get('/teacher-dashboardd', [AlternativeTeacherController::class,'dashboardd']); 
 
     Route::get('/edit-teacher-info', [AlternativeTeacherController::class,'EditInfo']);
     Route::post('/update-teacher-info', [AlternativeTeacherController::class, 'UpdateInfo']);

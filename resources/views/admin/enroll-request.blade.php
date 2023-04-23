@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-@include('admin.include.header')
+@include('admin.include.header2')
 
 </head>
 <body>
@@ -9,7 +9,8 @@
      @include('admin.include.sidebar')
         <div id="content" class="p-4 p-md-5">
             @include('admin.include.navbar')
-                <div>
+                <div align="center" style="background-color:green">
+                    <h3>Currently {{$cnt}} student's request is pending</h3>
                 </div>
                 <div style=" margin-top: 50px">
                     <table id="example" class="table table-striped table-bordered " style="width:100%;">
