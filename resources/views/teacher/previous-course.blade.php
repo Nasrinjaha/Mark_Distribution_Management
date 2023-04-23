@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-@include('admin.include.header2')
+@include('teacher.include.header2')
 
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
-     @include('admin.include.sidebar')
+     @include('teacher.include.sidebar')
         <div id="content" class="p-4 p-md-5">
-            @include('admin.include.navbar')
+            @include('teacher.include.navbar')
                 
                 <div style=" margin-top: 50px">
                     <table id="example" class="table table-striped table-bordered " style="width:100%;">
                         <thead>
                             <tr>
                                 <th>Session</th>
-                                <th>Semester</th>
                                 <th>Course Name</th>
                                 <th>Course Code</th>
                                 <th>Section</th>
@@ -26,7 +25,6 @@
                             @foreach($session as $sec)
                             <tr>
                                 <td>{{ $sec->Session_name }}</td>
-                                <td>{{ $sec->Semester }}</td>
                                 <td>{{ $sec->Name }}</td>
                                 <td>{{ $sec->Course_code }}</td>
                                 <td>{{ $sec->section }}</td>

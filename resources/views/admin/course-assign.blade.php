@@ -1,50 +1,62 @@
-@extends('admin.layout.full')
-@section('content')
-<h2 align="center">Course's Assign</h2>
-<form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
-    @csrf
-    @if(Session::has('suc_msg'))
-        <div align="center">
-            <div class="alert alert-success">
-                <strong>{{Session::get('suc_msg')}}</strong> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @include('admin.include.header2')
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+     @include('admin.include.sidebar')
+        <div id="content" class="p-4 p-md-5">
+            @include('admin.include.navbar')
+                <div>
+                    <h2 align="center">Course's Assign</h2>
+                    <form  align="center" action="{{ url('/assign-course') }}" enctype="multipart/form-data" method="post">
+                        @csrf
+                        @if(Session::has('suc_msg'))
+                            <div align="center">
+                                <div class="alert alert-success">
+                                    <strong>{{Session::get('suc_msg')}}</strong> 
+                                </div>
+                            </div>  
+                        @endif
+                        <select name = "session"  class="form-control"  id="session">
+                        <option value=" ">--Choose Session--</option>
+                            @foreach($ses as $s)
+                                @if($s->Status)
+                                    <ul>
+                                        <option value="{{$s->id}}">{{$s->Session_name}}</option>
+                                    </ul>
+                                @endif
+                            @endforeach
+                        </select>
+                        <br>
+                        
+                            <table id="course_table" class="table table-striped table-bordered " style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                        <th>Section</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    @foreach($courses as $crc)
+                                    <tr>
+                                        <td><input type="checkbox" id="checkbox{{$crc->id}}" name="check[]" value="{{$crc->id}}"></td>
+                                        <td>{{ $crc->Course_code }}</td>
+                                        <td>{{ $crc->Name }}</td>
+                                        <td><input type="number" name="s[{{$crc->id}}]" id="section{{$crc->id}}"></td>                  
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>  
+                            <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>  
-     @endif
-    <select name = "session"  class="form-control"  id="session">
-    <option value=" ">--Choose Session--</option>
-        @foreach($ses as $s)
-            @if($s->Status)
-                <ul>
-                    <option value="{{$s->id}}">{{$s->Session_name}}</option>
-                </ul>
-            @endif
-        @endforeach
-    </select>
-    <br>
-     
-        <table id="course_table" class="table table-striped table-bordered " style="width:100%;">
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>Course Code</th>
-                    <th>Course Name</th>
-                    <th>Section</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                @foreach($courses as $crc)
-                <tr>
-                    <td><input type="checkbox" id="checkbox{{$crc->id}}" name="check[]" value="{{$crc->id}}"></td>
-                    <td>{{ $crc->Course_code }}</td>
-                    <td>{{ $crc->Name }}</td>
-                    <td><input type="number" name="s[{{$crc->id}}]" id="section{{$crc->id}}"></td>                  
-                </tr>
-                @endforeach
-            </tbody>
-        </table>  
-        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
-    </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -103,4 +115,5 @@
            
         });
     </script>
-@stop
+    </body>
+ </html>

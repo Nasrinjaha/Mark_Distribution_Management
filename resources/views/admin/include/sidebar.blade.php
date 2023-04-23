@@ -9,17 +9,20 @@
 			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu">
 				<li>
-					<a href="#">Home 1</a>
+					<a href="{{URL::to('admin-profile')}}">My profile</a>
 				</li>
 				<li>
-					<a href="#">Home 2</a>
+					<a href="{{URL::to('admin-profile-update')}}">Update profile</a>
 				</li>
 				<li>
-					<a href="#">Home 3</a>
+					<a href="{{URL::to('admin-password-update')}}">Update Password</a>
+				</li>
+				<li>
+					<a href="{{URL::to('admin-image-update')}}">Update Image</a>
 				</li>
 			</ul>
 		</li>
-		<li class="active">
+		<li>
 			<a href="#SessionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage</a>
 			<ul class="collapse list-unstyled" id="SessionSubmenu">
 				<li>

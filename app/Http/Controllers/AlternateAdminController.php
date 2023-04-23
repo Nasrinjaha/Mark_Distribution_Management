@@ -9,9 +9,34 @@ use App\Models\Assigncourse;
 use App\Models\Enroll;
 use App\Models\Student;
 use Image;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
+use App\Models\Teacher;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportCourse;
+use App\Exports\ExportTeacher;
+use App\Exports\ExportStudent;
+
+use App\Models\Session as Sess;
+use App\Models\Section;
+
 class AlternateAdminController extends Controller
 {
+    public function dashboardd(){
+        $id = 1;
+        $admin = Admin::find($id);
+        // dd($admin);
+        $students = DB::table('students')->count();
+        $courses = DB::table('courses')->count();
+        $teachers = DB::table('teachers')->count();
+        return view('admin.admin-dashboardd',compact(['admin','students','courses','teachers'])); 
+    }
+
+    public function AdminProfile(){
+        $id = 1;
+        $admin = Admin::find($id);
+        return view('admin.admin-profile',compact(['admin']));
+    }
 
     public function CreateCourse(){
         return view('admin.create-course');
@@ -210,6 +235,52 @@ class AlternateAdminController extends Controller
         if($obj->save()){
             return redirect()->back();
         }
+    }
+
+    public function viewCoursepdf($id){
+        $course = Course::find($id);
+        $pdf = Pdf::loadView('admin.create-course-pdf',compact('course'));
+        return $pdf->stream();
+    }
+
+    public function downloadCoursepdf($id){
+        $course = Course::find($id);
+        $pdf = Pdf::loadView('admin.create-course-pdf',compact('course'));
+        return $pdf->download();
+    }
+    
+    public function viewTeacherepdf($id){
+        $tec =Teacher::find($id);
+        $pdf = Pdf::loadView('admin.create-teacher-pdf',compact('tec'));
+        return $pdf->stream();
+    }
+
+    public function downloadTeacherpdf($id){
+        $tec =Teacher::find($id);
+        $pdf = Pdf::loadView('admin.create-teacher-pdf',compact('tec'));
+        return $pdf->download();
+    }
+    public function viewStudentepdf($id){
+        $stu =Student::find($id);
+        $pdf = Pdf::loadView('admin.create-student-pdf',compact('stu'));
+        return $pdf->stream();
+    }
+
+    public function downloadStudentpdf($id){
+        $stu =Student::find($id);
+        $pdf = Pdf::loadView('admin.create-student-pdf',compact('stu'));
+        return $pdf->download();
+    }
+    
+    public function course_execel_crt(){
+        return Excel::download(new ExportCourse, 'Courses.xlsx');
+    }
+
+    public function teacher_execel_crt(){
+        return Excel::download(new ExportTeacher, 'Teachers.xlsx');
+    }
+    public function student_execel_crt(){
+        return Excel::download(new ExportStudent, 'Students.xlsx');
     }
 
 

@@ -11,8 +11,8 @@
         <br>
             <div class="form-group">
             <br>
-            <a class="btn btn-primary"  href="{{ url('/downloadstd/'.$course->id) }}">Download pdf</a>
-            <a class="btn btn-primary"  href="{{ url('/readstd/'.$course->id) }}">View pdf</a>
+            <a class="btn btn-primary"  href="{{ url('/downloadcoursepdf/'.$course->id) }}">Download pdf</a>
+            <a class="btn btn-primary"  href="{{ url('/viewcoursepdf/'.$course->id) }}">View pdf</a>
             </div>
             <br>
             @if(Session::has('suc_msg'))

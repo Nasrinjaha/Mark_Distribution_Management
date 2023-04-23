@@ -14,6 +14,11 @@ class AlternativeTeacherController extends Controller
         $teacher = Teacher::find($id);
         return view('teacher.teacher-dashboard',compact('teacher')); 
     }
+    public function dashboardd(){
+        $id = Session::get('id');
+        $teacher = Teacher::find($id);
+        return view('teacher.teacher-dashboardd',compact('teacher')); 
+    }
     public function EditInfo(){
         $id = Session::get('id');
         $teacher = Teacher::find($id); // SELECT * from employees WHERE id=1
@@ -71,13 +76,12 @@ class AlternativeTeacherController extends Controller
         $secid = DB::table('sessions')->max('id');
 
         $session =DB::table('assigncourses')
-        ->select('assigncourses.session_id', 'assigncourses.teacher_id', 'assigncourses.course_id', 'courses.Name', 'courses.Course_code', 'sessions.Session_name', 'assigncourses.Semester', 'assigncourses.section')
+        ->select('assigncourses.session_id', 'assigncourses.teacher_id', 'assigncourses.course_id', 'courses.Name', 'courses.Course_code', 'sessions.Session_name', 'assigncourses.section')
         ->join('courses','assigncourses.course_id','=','courses.id')
         ->join('sessions','assigncourses.session_id','=','sessions.id')
         ->where('assigncourses.session_id','<',$secid)
         ->where('assigncourses.teacher_id','=',$tid)
         ->orderBy('assigncourses.session_id','asc')
-        ->orderBy('assigncourses.Semester','asc')
         ->get();
         return view('teacher.previous-course', compact('session'));
     }
