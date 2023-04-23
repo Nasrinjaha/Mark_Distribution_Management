@@ -132,6 +132,7 @@
 
                     $("#course").change(function(){
                         var id = $(this).val();
+                        $('#button').hide();
 
                         if(id!=" "){
                             $('#teacherassign').empty();

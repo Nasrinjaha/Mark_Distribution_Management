@@ -20,8 +20,8 @@
                             <center><img src="{{ asset('thumbnail/'.$teacher->img)  }}" alt=""></center>
                             <div class="form-group">
                             <br>
-                            <a class="btn btn-primary"  href="{{ url('/downloadstd/'.$teacher->id) }}">Download pdf</a>
-                                <a class="btn btn-primary"  href="{{ url('/readstd/'.$teacher->id) }}">View pdf</a>
+                            <a class="btn btn-primary"  href="{{ url('/downloadteacherpdf/'.$teacher->id) }}">Download pdf</a>
+                                <a class="btn btn-primary"  href="{{ url('/viewteacherpdf/'.$teacher->id) }}">View pdf</a>
                             </div>
                             <br>
                             @if(Session::has('suc_msg'))

@@ -24,7 +24,7 @@
                         
                         </div>
                         <button type="submit" class="btn btn-primary" name="submit" value="submit">Import excel fil</button>
-                        <a class="btn btn-primary"  href="{{ url('export-excel') }}">Export excel file</a>
+                        <a class="btn btn-primary"  href="{{ url('export-teacher-excel') }}">Export excel file</a>
                     </form>
                 </div>
                 <div style=" margin-top: 50px">

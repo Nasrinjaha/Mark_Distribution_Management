@@ -66,7 +66,7 @@
                                 </tr> 
                             </tbody>
                         </table>
-                     <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                     <button type="submit" name="submit" id="button" class="btn btn-primary">Assign</button>
                     </form>
                 </div>
             </div>  
@@ -141,8 +141,7 @@
                                         var table_str = '<tr><th>Section</th><th>Assign Teacher</th></tr>';
                                         for(var i=0; i<len; i++){
                                             var tid = response.section[i].teacher_id;
-                                            table_str += '<td>'+response.section[i].section+'</td>';
-                                            
+                                            table_str += '<td><input type="text" name="section[]" id="section'+i+'" value="'+response.section[i].section+'" required></td>'
                                             table_str += '<td><select name="teacher[]" id="teacher">'
                                             table_str +=  '<option value="">--choose Teacher--</option>'
                                             for(var j=0;j<len2;j++){

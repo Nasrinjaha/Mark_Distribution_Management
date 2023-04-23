@@ -151,7 +151,7 @@ p {
      @include('admin.include.sidebar')
         <div id="content" class="p-4 p-md-5">
             @include('admin.include.navbar')
-            <div class="page-content page-container" id="page-content">
+            <div align="center" class="page-content page-container" id="page-content">
                 <div class="padding">
                     <div class="row container d-flex justify-content-center">
                         <div class="col-xl-6 col-md-12">
@@ -215,3 +215,5 @@ p {
     </div>
 </body>
 </html>
+
+<script src="js/main.js"></script>
