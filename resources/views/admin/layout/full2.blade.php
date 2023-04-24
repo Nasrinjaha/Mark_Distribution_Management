@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-      @include('admin.include.header')
+      @include('admin.include.header2')
       @include('admin.include.dashboard-css')
   </head>
   <body>

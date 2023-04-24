@@ -25,7 +25,6 @@ class AlternateAdminController extends Controller
     public function dashboardd(){
         $id = 1;
         $admin = Admin::find($id);
-        // dd($admin);
         $students = DB::table('students')->count();
         $courses = DB::table('courses')->count();
         $teachers = DB::table('teachers')->count();
@@ -37,7 +36,50 @@ class AlternateAdminController extends Controller
         $admin = Admin::find($id);
         return view('admin.admin-profile',compact(['admin']));
     }
+    public function AdminEditProfile(){
+        $id = 1;
+        $admin = Admin::find($id);
+        return view('admin.admin-edit-profile',compact(['admin']));
+    }
+    public function AdminUpdateProfile(Request $req){
+        $name = $req->name;
+        $email = $req->email;
+        $birth_date = $req->birth_date;
+        $address = $req->address;
 
+        $obj = Admin::find(1);
+        $obj->name = $name;
+        $obj->email = $email;
+        $obj->dob = $birth_date;
+        $obj->address = $address;
+        if($obj->save()){
+           return redirect('/admin-profile');
+          // echo "updated";
+        }
+    }
+
+    public function AdminEditPassword(){
+        $id = 1;
+        $admin = Admin::find($id);
+        return view('admin.admin-edit-pass',compact(['admin']));
+    }
+    public function AdminUpdatePassword(Request $req){
+        $current = $req->pass1;
+        $new = $req->pass2;
+        $re_new = $req->pass3;
+        $admin = Admin::find(1);
+        if($current!=$admin->pass){
+            return redirect()->back()->with('dup_msg1','Wrong Password!!!!!');
+        }
+        if($new!=$re_new){
+            return redirect()->back()->with('dup_msg2','New password does not match with retyped password!!!!!');
+        }
+        $obj = Admin::find(1);
+        $obj->pass = $new;
+        if($obj->save()){
+            return redirect('/admin-password-update')->with('suc_msg','Password Successfully Updated!!!!!');;
+         }
+    }
     public function CreateCourse(){
         return view('admin.create-course');
     }
@@ -77,12 +119,15 @@ class AlternateAdminController extends Controller
                 }
             }
     }
+    public function CreateSemester(){
+        return view('admin.create-semester');
+    }
     public function Allcourse(){
         $courses = Course::all();
         return view('admin.course', compact('courses'));
     }
     public function EditCourse($id){
-        $course = Course::find($id); // SELECT * from employees WHERE id=1
+        $course = Course::find($id);
         
         return view('admin.edit-course', compact('course'));
     }

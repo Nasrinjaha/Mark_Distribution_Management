@@ -162,7 +162,7 @@ p {
                                             <div class="m-b-25">
                                                 <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
                                             </div>
-                                            <h6 class="f-w-600">Kingshuk Dhar</h6>
+                                            <h6 class="f-w-600">{{$admin->name}}</h6>
                                             <p>Assistant Professor</p>
                                             <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                         </div>

@@ -36,9 +36,18 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 
     Route::get('/admin-dashboard', [AdminController::class,'dashboard']); 
     Route::get('/admin-dashboardd', [AlternateAdminController::class,'dashboardd']);
-    Route::get('/admin-profile', [AlternateAdminController::class,'AdminProfile']); 
+    Route::get('/admin-profile', [AlternateAdminController::class,'AdminProfile']);
+
+    Route::get('/admin-profile-update', [AlternateAdminController::class,'AdminEditProfile']);
+    Route::post('/update-admin-profile', [AlternateAdminController::class,'AdminUpdateProfile']);
+
+    Route::get('/admin-password-update', [AlternateAdminController::class,'AdminEditPassword']);
+    Route::post('/update-admin-pass', [AlternateAdminController::class, 'AdminUpdatePassword']);
 
     Route::get('create-course', [AlternateAdminController::class,'CreateCourse']); 
+    Route::post('/store-course', [AlternateAdminController::class, 'StoreCourse']);
+
+    Route::get('create-semester', [AlternateAdminController::class,'CreateSemester']); 
     Route::post('/store-course', [AlternateAdminController::class, 'StoreCourse']);
 
     Route::get('/all-course', [AlternateAdminController::class, 'Allcourse']);
