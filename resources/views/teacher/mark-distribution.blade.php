@@ -103,7 +103,7 @@
 
             });
             $(document).on('click','#rmv_btn',function(){
-                //alert($(this).children('#mark').val());
+                alert($(this).children('#mark').val());
                 var rmv = $(this).closest('tr').children().children('#mark').val();
                 sum-= parseInt(rmv);
                 console.log(rmv);
