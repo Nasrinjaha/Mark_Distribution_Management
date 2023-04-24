@@ -52,14 +52,17 @@
                                 <label class="col-form-label-sm" for="sem">Course Semester   :</label>
                                 <select name="sem" class="form-group" id="sem" >
                                     <option value="">Choose Semester</option>
-                                    <option value="1">1st</option>
+                                    @foreach($semesters as $sem)
+                                        <option value="{{$sem->id}}">{{$sem->name}}</option>
+                                    {{-- <option value="1">1st</option>
                                     <option value="2">2nd</option>
                                     <option value="3">3rd</option>
                                     <option value="4">4th</option>
                                     <option value="5">5th</option>
                                     <option value="6">6th</option>
                                     <option value="7">7th</option>
-                                    <option value="8">8th</option>
+                                    <option value="8">8th</option> --}}
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
