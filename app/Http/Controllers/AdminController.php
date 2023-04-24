@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function dashboard(){
         $id = Session::get('id');
         $admin = Admin::find($id);
-        return view('admin.admin-dashboard',compact('admin')); 
+        return view('admin.admin-dashboardd',compact('admin')); 
     }
 
     public function CreateStudent(){
