@@ -47,6 +47,15 @@
                 <input type="number" name="hour" class="form-control-sm" step="any" value="{{$course->Hour}}" >
             </div>
             <div class="form-group">
+                <label class="col-form-label-sm" for="sem">Course Semester   :</label>
+                <select name="sem" class="form-group" id="sem" >
+                    <option value="{{$co_sem->id}}">{{$co_sem->name}}</option>
+                    @foreach($semesters as $sem)
+                        <option value="{{$sem->id}}">{{$sem->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 @if($course->Type==1)
                     @php
                         $p= "Theory";

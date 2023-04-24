@@ -13,14 +13,15 @@
 <body>
     <div class="container">
         <h1 align="center">Teacher Details</h1><br>
-        <h4>Teacher's Name = {{$tec->name}}</h4>
-        <h4>Teacher's Email = {{$tec->email}}</h4>
-        <h4>Teacher's Date of Birth = {{$tec->dob}}</h4>
-        <h4>Teacher's Address = {{$tec->address}}</h4>
-        <br><br><br><br>
-        <h4>Teacher's' Profile Picture = <img src="{{ public_path('thumbnail/'.$tec->img) }}" alt=""></h4>
+        <h5 align="center">Teacher's' Profile Picture </h5> <br>
         <div align="center">
+            <img src="{{ public_path('thumbnail/'.$tec->img) }}"  alt="">
         </div>
+        <br><br>
+        <h5>Teacher's Name = {{$tec->name}}</h5>
+        <h5>Teacher's Email = {{$tec->email}}</h5>
+        <h5>Teacher's Date of Birth = {{$tec->dob}}</h5>
+        <h5>Teacher's Address = {{$tec->address}}</h5>
         
     </div>
 </body>

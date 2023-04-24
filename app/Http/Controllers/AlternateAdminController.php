@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExportCourse;
 use App\Exports\ExportTeacher;
 use App\Exports\ExportStudent;
-
+use App\Models\Semester;
 use App\Models\Session as Sess;
 use App\Models\Section;
 
@@ -81,7 +81,8 @@ class AlternateAdminController extends Controller
          }
     }
     public function CreateCourse(){
-        return view('admin.create-course');
+        $semesters = Semester::select('*')->get();
+        return view('admin.create-course',compact(['semesters'])); 
     }
 
     public function StoreCourse(Request $req){
@@ -128,15 +129,19 @@ class AlternateAdminController extends Controller
     }
     public function EditCourse($id){
         $course = Course::find($id);
-        
-        return view('admin.edit-course', compact('course'));
+        $sem = $course->Semester;
+        $co_sem = Semester::find($sem);
+        $semesters = Semester::select('*')->get();
+        return view('admin.edit-course', compact(['course','semesters','co_sem']));
     }
 
-    public function updateCourse(Request $req, $id){
+    public function UpdateCourse(Request $req, $id){
         $name = $req->name;
         $code = $req->ccode;
         $credit = $req->crdit;
         $hour=$req->hour;
+        $sem=$req->sem;
+
         $users = Course::select("*")
         ->where("Course_code", "=", $code)
         ->first();  
@@ -159,6 +164,7 @@ class AlternateAdminController extends Controller
         $obj->Credit = $credit;
         $obj->Hour = $hour;
         $obj->Type=$type;
+        $obj->Semester=$sem;
         $obj->Student_limit	=$limit;
         if($obj->save()){
            return redirect('/all-course');
@@ -265,20 +271,37 @@ class AlternateAdminController extends Controller
     public function Enrollreq(){
         $lst=DB::table('sessions')->max('id');
         $enroll=DB::table('assigncourses')
-            ->select('assigncourses.id', 'assigncourses.session_id', 'assigncourses.section', 'enrolls.id as enroll_id', 'enrolls.status', 'enrolls.st_id', 'enrolls.assigncourse_id', 'courses.Course_code', 'courses.Name', 'courses.semester')
-            ->join('enrolls','assigncourses.id','=','enrolls.assigncourse_id')
-            ->join('courses','assigncourses.course_id','=','courses.id')
-            ->where('assigncourses.session_id','=',$lst)
-            ->where('enrolls.status','=',0)
-            ->get();
+        ->select('assigncourses.id', 'assigncourses.session_id', 'assigncourses.section', 'enrolls.id as enroll_id', 'enrolls.status', 'enrolls.st_id', 'enrolls.assigncourse_id', 'courses.Course_code', 'courses.Name', 'courses.semester')
+        ->join('enrolls','assigncourses.id','=','enrolls.assigncourse_id')
+        ->join('courses','assigncourses.course_id','=','courses.id')
+        ->where('assigncourses.session_id','=',$lst)
+        ->where('enrolls.status','=',0)
+        ->get();
         $cnt=count($enroll);
-        return view('admin.enroll-request', compact(['enroll','cnt']));
+        $last = Session::latest()->first();
+        return view('admin.enroll-request', compact(['enroll','cnt','last']));
     }
     public function AppEnrollreq($id){
         $obj =Enroll::find($id);
         $obj->status = 1;
         if($obj->save()){
             return redirect()->back();
+        }
+    }
+    public function DeleteEnrollreq($id){
+        $obj =Enroll::find($id);
+
+        DB::table('enrolls')
+            ->where('id', '=', $id)
+            ->delete();
+
+        return redirect('/enrollment');
+    }
+    public function getsemester(){
+        $semesters = Semester::select('*')->get();
+        // dd($semesters);
+        if($semesters){
+            return response()->json(array('semesters'=> $semesters));
         }
     }
 
