@@ -105,9 +105,7 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::get('/student-marks-assign/{cid}',[TeacherController::class,'assignStudent']);
     Route::post('/store-student-marks',[TeacherController::class,'storeMarks']);
     Route::get('/get-student-marks-assign/{stid}/{catid}/{acid}',[TeacherController::class,'getStudentAssignMarks']);
-
-
-
+    Route::get('/getsem',[TeacherController::class,'getSemester']);
 
 });
 

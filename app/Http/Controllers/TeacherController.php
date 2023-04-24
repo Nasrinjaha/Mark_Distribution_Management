@@ -10,6 +10,8 @@ use App\Models\Assigncourse;
 use App\Models\Section;
 use App\Models\Markdistribution;
 use App\Models\Assignmark;
+use App\Models\Semester;
+
 
 use Illuminate\Http\Request;
 use Session;
@@ -124,7 +126,7 @@ class TeacherController extends Controller
         //dd($r);
         $eti=$r->eti;
         $marks= $r->marks;
-        $arr = explode('-',eti);
+        $arr = explode('-',$eti);
         $std_id = $arr[0];
         $cat_id = $arr[1];
         $ac_id = $arr[2];
@@ -136,14 +138,22 @@ class TeacherController extends Controller
         if($data){
             $data->delete();
         }
+       // dd($std_id);
         $obj = new Assignmark();
                 $obj->st_id = $std_id; 
-                $obj->ac_id = $cat_id;
-                $obj->cat_id =  $ac_id;
+                $obj->ac_id = $ac_id;
+                $obj->cat_id =  $cat_id;
+                $obj->marks = $marks;
 
         if($obj->save()){
             return response()->json([
                 'msg' => 'Successfully Inserted',
+              
+            ]);
+        }
+        else{
+            return response()->json([
+                'msg' => 'failed',
               
             ]);
         }
@@ -210,5 +220,21 @@ class TeacherController extends Controller
         
 
 
+    }
+
+
+    public function storeSemester(Request $req){
+        $obj = new Semester();
+        $obj->name = $req->teacher_name;
+        if($obj->save()){
+            return response()->json([
+                'msg' => 'Successfully Inserted',
+                'teacher' => $obj
+            ]);
+        }
+    }
+
+    public function getSemester(){
+        return view('teacher.semester');
     }
 }

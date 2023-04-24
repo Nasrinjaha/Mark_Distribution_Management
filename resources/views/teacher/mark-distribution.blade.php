@@ -70,6 +70,7 @@
 
                 //temp = $('#'+event.target.id).val();
                 temp = $(event.target).val();
+                //console.log(temp);
 
             });
             
@@ -104,7 +105,8 @@
             $(document).on('click','#rmv_btn',function(){
                 //alert($(this).children('#mark').val());
                 var rmv = $(this).closest('tr').children().children('#mark').val();
-                sum = sum-rmv;
+                sum-= parseInt(rmv);
+                console.log(rmv);
                 $(this).closest('tr').remove();
                 if(sum==100){
                     $('#button').show();
@@ -112,7 +114,7 @@
                 else{
                     $('#button').hide();
                 }
-                console.log(rmv);
+                //console.log(rmv);
                // console.log(this.sum);
                 
 
@@ -170,6 +172,8 @@
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
                                                 html+='<td><input type="number" name="marks[]" id="marks" value="'+response.users[i].marks+'"></td>';
+                                                sum+=response.users[i].marks;
+                                                //console.log(sum);
                                                 html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
                                                 html+='</tr>';
                                                 $('#dynamic').append(html);
@@ -180,6 +184,8 @@
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
                                                 html+='<td><input type="number" name="marks[]" id="marks" value="'+response.users[i].marks+'"></td>';
+                                                sum+=response.users[i].marks;
+                                                //console.log(sum);
                                                 html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
                                                 html+='</tr>';
                                                 $('#dynamic').append(html);

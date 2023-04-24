@@ -67,7 +67,7 @@ class AuthController extends Controller
                       Session:: put('id',$id);
                       Session:: put('Role','admin');
                       Session:: put('pp',$pp);
-                      return redirect('admin-dashboard');
+                      return redirect('admin-dashboardd');
                   }
                   else{
                       return redirect()->back()->with('err_msg','wrong pass or email');

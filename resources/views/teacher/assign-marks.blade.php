@@ -10,7 +10,7 @@
             @include('teacher.include.navbar')
             <div> 
                 <h2 align="center">Mark Distribution</h2>
-                <form  align="center" action="{{ url('/store-student-marks') }}" enctype="multipart/form-data" method="post">
+                <form  align="center" action="">
                   
                     @if(Session::has('suc_msg'))
                         <div align="center">
@@ -70,6 +70,8 @@
             $(document).keyup(function (event) {
 
                 var in_val = $('#'+event.target.id).val();
+                console.log(event.target.id);
+                console.log(in_val);
                
                 var td_id = event.target.id+'td';
                 if(in_val>obj[event.target.id]){
@@ -81,15 +83,12 @@
                 else{
                     $('#'+td_id).children('span').remove();
                     $.ajax({
-                        url: 'http://127.0.0.1:8000/store-student-marks',
+                        url: 'http://127.0.0.1:8000/api/store-student-marks',
                         type: 'POST',
-                        async: false,
                         dataType: 'json',
                         data: {
                             eti: event.target.id,
-                            marks: in_val
-                            
-                            
+                            marks: in_val  
                         },
                         success: function(response){
                             console.log(response.msg)
@@ -205,7 +204,7 @@
                                         $('#teacherassign').append(html);
                                         $('#teacherassign').show();
                                         //$('#dynamic').show();
-                                        $('#button').show();  
+                                        //$('#button').show();  
                                     }
                                     else{
                                        
