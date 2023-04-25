@@ -10,7 +10,7 @@
         <div id="content" class="p-4 p-md-5">
             @include('admin.include.navbar')
                 <div>
-                    <form method="post" action="{{ URL::to('store-excel') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ URL::to('store-excel-teacher') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="row 3">
                             <div class="form-group">

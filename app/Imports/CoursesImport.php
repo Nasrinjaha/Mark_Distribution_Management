@@ -2,18 +2,15 @@
 
 namespace App\Imports;
 
-use App\Models\Student;
+use App\Models\Course;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-
-
-
-class UsersImport implements ToCollection
+class CoursesImport implements ToCollection
 {
-    /**
+   /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
@@ -38,24 +35,25 @@ class UsersImport implements ToCollection
 
                 //$reader->formatDates(true);
                  //echo "-----";
-                $obj = new Student();
+                $obj = new Course();
 
-                $obj->name = $row[0] ;
+                $obj->Course_code = $row[0] ;
                 //echo $row[0]." ";
-                $obj->email = $row[1];
+                $obj->Name = $row[1];
                 //echo $row[1]." ";
               
                 //echo $row[3]." ";
               //$bd =  Carbon::parse("$row[4]")->format('Y/m/d');
                 ///$obj->birth_date =  $row[4];
-                $d = (double)$row[2];
-                $date = Date::excelToDateTimeObject($d)->format('Y-m-d');
-                $obj->dob =  $date;
+                $obj->Semester = $row[2];
+                //$date = Date::excelToDateTimeObject($d)->format('Y-m-d');
+                //$obj->dob =  $date;
                 //echo $date." ";
-                $obj->address =$row[3];
-                $obj->pass= $row[4];
+                $obj->Credit =$row[3];
+                $obj->Student_limit =$row[4];
+                $obj->Hour= $row[5];
                 //echo $row[4]." ";
-                $obj->img =$row[5];
+                $obj->Type =$row[6];
                 //echo $row[5]." ";
               
                

@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Carbon\Carbon;
@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 
 
-class UsersImport implements ToCollection
+class TeachersImport implements ToCollection
 {
     /**
     * @param array $row
@@ -38,7 +38,7 @@ class UsersImport implements ToCollection
 
                 //$reader->formatDates(true);
                  //echo "-----";
-                $obj = new Student();
+                $obj = new Teacher();
 
                 $obj->name = $row[0] ;
                 //echo $row[0]." ";
@@ -53,9 +53,10 @@ class UsersImport implements ToCollection
                 $obj->dob =  $date;
                 //echo $date." ";
                 $obj->address =$row[3];
-                $obj->pass= $row[4];
+                $obj->designation =$row[4];
+                $obj->pass= $row[5];
                 //echo $row[4]." ";
-                $obj->img =$row[5];
+                $obj->img =$row[6];
                 //echo $row[5]." ";
               
                
