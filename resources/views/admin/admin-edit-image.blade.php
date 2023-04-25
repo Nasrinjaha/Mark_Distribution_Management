@@ -10,27 +10,37 @@
             @include('admin.include.navbar')
             <div class="card">
                     <div class="card-header" align="center">
-                        Edit Teacher Designation
+                        Update Profile Picture
                     </div>
                     <div class="card-body">
 
-                        <form align="center" action="{{url('/update-teacher-designation/'.$teacher->id)}}" enctype="multipart/form-data" method="post">
+                        <form align="center" action="{{url('/store-admin-image/')}}" enctype="multipart/form-data" method="post">
                         @csrf  
                         <br>
-                            <center><img src="{{ asset('thumbnail/'.$teacher->img)  }}" alt=""></center>
+                            <center><img src="{{ asset('thumbnail/'.$admin->img)  }}" alt=""></center>
                             <br>
                             @if(Session::has('suc_msg'))
-                            <div class="row 4 haha">
+                            <div align="center">
                                 <div class="alert alert-success">
                                     <strong>{{Session::get('suc_msg')}}</strong> 
                                 </div>
                             </div>  
                             @endif
                             <div class="form-group">
-                                <label class="col-form-label-sm" for="">Name    :</label>
-                                <input type="text" name="name" class="form-control-sm" value="{{$teacher->name}}">
+                                <label class="col-form-label-sm" for="">choose file   :</label>
+                                <input type="file" name="img" class="form-control-sm">
                             </div>
-                            
+                            @if(Session::has('dup_msg1'))
+                            <div align="center">
+                                <div class="alert alert-warning ">
+                                    <strong>{{Session::get('dup_msg1')}}</strong> 
+                                </div>
+                            </div> 
+                            @endif
+
+                            <div class="form-group" align="center">
+                                <button type="submit"  name = "submit" class="btn btn-primary">Save</button>
+                            </div>
                         
                         </form>
                     </div>
@@ -41,8 +51,3 @@
     </div>
 </body>
 </html>
-
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>

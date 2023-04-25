@@ -359,6 +359,62 @@ class AdminController extends Controller
             return redirect()->back();
         }
     }
+    
+    public function storeSemester(Request $r){
+        //dd($r);
+        $name = $r->semname;
+        $users = Semester::select("*")
+        ->where("name", "=", $name)
+        ->first();  
+        if($users){
+            return redirect()->back()->with('dup_msg','Already exist Semester!!!!!');
+        } 
+        else{
+            $obj = new Semester(); 
+            $obj->name = $name;
+            if($obj->save()){
+                return redirect()->back()->with('suc_msg','successfully inserted');
+            }
+        }
+        
+    }
 
+    public function adminImageEdite(){
+        $id = Session::get('id');
+        $admin = Admin::find($id);
+        return view('admin.admin-edit-image',compact(['admin']));
+    }
+    public function UpdateProfileImage(Request $req){
+
+        $id = Session::get('id');
+        $originalImage = $req->file('img');
+        $thumbnailImage = Image::make($originalImage);
+
+        $thumbnailPath = public_path().'/thumbnail/';
+        $originalPath = public_path().'/images/';
+
+        $full_file_name = $originalImage->getClientOriginalName();
+        $extension = $originalImage->getClientOriginalExtension();
+        $filename = time().'.'.$extension;
+
+        $thumbnailImage->save($originalPath.$filename);
+        
+        $thumbnailImage->resize(150,150);
+        $thumbnailImage->save($thumbnailPath.$filename);  
+
+
+        $obj = Admin::find($id);
+        $obj->img = $filename;
+        if($obj->save()){
+            return redirect('admin-image-update');
+        }
+    }
+    public function editDesgnatoin(){
+        $teachers = Teacher::all();
+        return view('admin.edit-designation', compact('teachers'));
+    }
+    public function UpdateDesgnatoin(Request $r){
+        dd($r);
+    }
 
 }

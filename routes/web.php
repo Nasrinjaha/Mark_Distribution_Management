@@ -72,8 +72,18 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/session-enrollment', [AdminController::class, 'EnrollmentRequest']);
     Route::get('/enroll-approve', [AdminController::class, 'ApproveEnrollmentRequest']);
 
+    Route::post('/store-semester', [AdminController::class, 'storeSemester']);
 
 
+    Route::get('/admin-image-update', [AdminController::class, 'adminImageEdite']);
+
+    Route::post('/store-admin-image', [AdminController::class, 'UpdateProfileImage']);
+   
+    Route::get('/edit-designation', [AdminController::class, 'editDesgnatoin']);
+    Route::get('/update-designation/{id}', [AdminController::class, 'UpdateDesgnatoin']);
+
+   
+    
 
 
     
