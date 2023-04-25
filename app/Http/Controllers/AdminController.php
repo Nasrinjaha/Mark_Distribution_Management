@@ -9,6 +9,10 @@ use App\Models\Course;
 use App\Models\Assigncourse;
 use App\Models\Section;
 use App\Models\Semester;
+use App\Imports\UsersImport;
+use App\Imports\TeachersImport;
+use App\Imports\CoursesImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 use Session;
@@ -93,6 +97,7 @@ class AdminController extends Controller
                 $obj->email = $email;
                 $obj->dob = $birth_date;
                 $obj->address = $address;
+                $obj->designation = 'Lecturer';
                 $obj->pass=$pass;
                 $obj->img = 'user.png';
                 if($obj->save()){
@@ -142,7 +147,7 @@ class AdminController extends Controller
     }
 
     public function AllTeachers(){
-        $teachers = Teacher::all();
+        $teachers = Teacher::where('id','<>', 0)->get();
         return view('admin.teachers', compact('teachers'));
     }
     public function EditTeacher($id){
@@ -413,8 +418,46 @@ class AdminController extends Controller
         $teachers = Teacher::all();
         return view('admin.edit-designation', compact('teachers'));
     }
-    public function UpdateDesgnatoin(Request $r){
-        dd($r);
+    public function UpdateDesgnatoin($id){
+        $teacher = Teacher::find($id); // SELECT * from employees WHERE id=1
+        
+        return view('admin.update-designation', compact('teacher'));
+
+    }
+    public function UpdateTeacherDesgnatoin(Request $req,$id){
+          //dd($r);
+        $name = $req->dname;
+        $obj = Teacher::find($id);
+    
+        $obj->designation = $name;
+        if($obj->save()){
+           return redirect('/edit-designation');
+          // echo "updated";
+        }
+    }
+
+
+    public function storeStudentExcel(Request $r){
+        // $r->validate([
+        //     'excel_file' => 'required|mimes:xlsx'
+        // ]);
+        \Excel::import(new UsersImport, $r->file);
+        return redirect()->to('/all-students'); 
+    }
+    
+    public function storeTeacherExcel(Request $r){
+        // $r->validate([
+        //     'excel_file' => 'required|mimes:xlsx'
+        // ]);
+        \Excel::import(new TeachersImport, $r->file);
+        return redirect()->to('/all-teachers'); 
+    }
+    public function  storeCourseExcel(Request $r){
+        // $r->validate([
+        //     'excel_file' => 'required|mimes:xlsx'
+        // ]);
+        \Excel::import(new CoursesImport, $r->file);
+        return redirect()->to('/all-course'); 
     }
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminController;
+//use Input;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,11 +46,13 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/edit-student/{id}', [AdminController::class, 'EditStudent']); 
     Route::post('/update-student/{id}', [AdminController::class, 'UpdateStudent']); 
     Route::get('/delete-student/{id}', [AdminController::class, 'DeleteStudent']); 
+    Route::post('/store-excel-student',[AdminController::class,'storeStudentExcel']);
 
     Route::get('/all-teachers', [AdminController::class, 'AllTeachers']); 
     Route::get('/edit-teacher/{id}', [AdminController::class, 'EditTeacher']); 
     Route::post('/update-teacher/{id}', [AdminController::class, 'UpdateTeacher']); 
     Route::get('/delete-teacher/{id}', [AdminController::class, 'DeleteTeacher']); 
+    Route::post('/store-excel-teacher',[AdminController::class,'storeTeacherExcel']);
 
     Route::get('/get-course', [AdminController::class, 'getCourse']); 
     Route::post('/assign-course', [AdminController::class, 'assignCourse']);
@@ -81,10 +84,9 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
    
     Route::get('/edit-designation', [AdminController::class, 'editDesgnatoin']);
     Route::get('/update-designation/{id}', [AdminController::class, 'UpdateDesgnatoin']);
-
-   
+    Route::post('/update-teacher-designation/{id}', [AdminController::class, 'UpdateTeacherDesgnatoin']);
     
-
+    Route::post('/store-excel-course',[AdminController::class,'storeCourseExcel']);
 
     
 
