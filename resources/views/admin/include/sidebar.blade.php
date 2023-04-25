@@ -6,7 +6,7 @@
 	<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(thumbnail/{{Session::get('pp')}});"></a>
 	<ul class="list-unstyled components mb-5">
 		<li class="active">
-			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">About Me</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu">
 				<li>
 					<a href="{{URL::to('admin-profile')}}">My profile</a>
@@ -78,12 +78,15 @@
 		<li>
 			<a href="{{URL::to('enrollment')}}">Enrollment Request</a>
 		</li>
+		<li>
+			<a href="{{URL::to('edit-designation')}}">Update Designation</a>
+		</li>
 
 		
 		
 		
 	</ul>
-
+<br><br><br><br>
 	@include('admin.include.footer')
 
 	</div>

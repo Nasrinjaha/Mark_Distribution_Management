@@ -34,7 +34,7 @@
                 
             </tbody>
         </table>  
-        <button type="submit" name="submit" id="submitBtn" class="btn btn-primary">assign</button>
+        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>

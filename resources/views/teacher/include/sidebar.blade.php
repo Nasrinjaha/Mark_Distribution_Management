@@ -4,9 +4,6 @@
 
 	<ul class="list-unstyled components mb-5">
 		<li class="active">
-			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-		</li>
-		<li>
 			<a href="#infoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">My Profile</a>
 			<ul class="collapse list-unstyled" id="infoSubmenu">
 				<li>
@@ -18,24 +15,19 @@
 			</ul>
 		</li>
 		<li>
-			<a href="#courseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Course's</a>
-			<ul class="collapse list-unstyled" id="courseSubmenu">
-				<li>
-					<a href="{{URL::to('teacher-current-course')}}">MarK Distribution</a>
-				</li>
-				<li>
-					<a href="{{URL::to('teacher-previous-courses')}}">Previously Conducted Course's</a>
-				</li>
-			</ul>
+			<a href="{{URL::to('teacher-current-course')}}">Running Course's</a>
+		</li>
+		<li>
+			<a href="{{URL::to('teacher-previous-courses')}}">Complete Course's</a>
 		</li>
 		<li>
 			<a href="{{URL::to('get-students')}}">Assign Marks</a>
 		</li>
-		<li>
+		<!-- <li>
 			<a href="#">Contact</a>
-		</li>
+		</li> -->
 	</ul>
-
+<br><br><br><br><br><br><br><br><br>
 	@include('teacher.include.footer')
 
 	</div>

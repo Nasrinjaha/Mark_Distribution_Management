@@ -27,7 +27,7 @@ class TeacherController extends Controller
 
     public function getCourse(){
         $ses = Sess::all();
-        return view('teacher.mark-distribution',compact('ses')); 
+        return view('teacher.mark-distributionn',compact('ses')); 
     }
     public function getTeacherAssignCourse($id){
         //$users = Assigncourse::where('session_id', $id)->get();
