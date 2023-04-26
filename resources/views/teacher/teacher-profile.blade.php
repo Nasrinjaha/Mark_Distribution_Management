@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-@include('admin.include.header2')
+@include('teacher.include.header2')
 <style>
 body {
     background-color: #f9f9fa
@@ -148,9 +148,9 @@ p {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css" rel="stylesheet">
-     @include('admin.include.sidebar')
+     @include('teacher.include.sidebar')
         <div id="content" class="p-4 p-md-5">
-            @include('admin.include.navbar')
+            @include('teacher.include.navbar')
             <div align="center" class="page-content page-container" id="page-content">
                 <div class="padding">
                     <div class="row container d-flex justify-content-center">
@@ -160,9 +160,9 @@ p {
                                     <div class="col-sm-4 bg-c-lite-green user-profile">
                                         <div class="card-block text-center text-white">
                                             <div class="m-b-25">
-                                                <img src="{{ public_path('thumbnail/'.$admin->img) }}" class="img-radius" alt="User-Profile-Image">
+                                                <img src="{{ public_path('thumbnail/'.$teacher->img) }}" class="img-radius" alt="User-Profile-Image">
                                             </div>
-                                            <h6 class="f-w-600">{{$admin->name}}</h6>
+                                            <h6 class="f-w-600">{{$teacher->name}}</h6>
                                             <p>Assistant Professor</p>
                                             <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                         </div>
@@ -173,17 +173,17 @@ p {
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <p class="m-b-10 f-w-600">Email</p>
-                                                    <h6 class="text-muted f-w-400">{{$admin->email}}</h6>
+                                                    <h6 class="text-muted f-w-400">{{$teacher->email}}</h6>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <p class="m-b-10 f-w-600">Address</p>
-                                                    <h6 class="text-muted f-w-400">{{$admin->address}}</h6>
+                                                    <h6 class="text-muted f-w-400">{{$teacher->address}}</h6>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <p class="m-b-10 f-w-600">Date Of Birth</p>
-                                                    <h6 class="text-muted f-w-400">{{$admin->dob}}</h6>
+                                                    <h6 class="text-muted f-w-400">{{$teacher->dob}}</h6>
                                                 </div>
                                             </div>
                                             <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>

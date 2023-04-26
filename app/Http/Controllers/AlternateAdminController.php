@@ -23,7 +23,7 @@ use App\Models\Section;
 class AlternateAdminController extends Controller
 {
     public function dashboardd(){
-        $id = 1;
+        $id = Session::get('id');
         $admin = Admin::find($id);
         $students = DB::table('students')->count();
         $courses = DB::table('courses')->count();
@@ -32,12 +32,12 @@ class AlternateAdminController extends Controller
     }
 
     public function AdminProfile(){
-        $id = 1;
+        $id = Session::get('id');
         $admin = Admin::find($id);
         return view('admin.admin-profile',compact(['admin']));
     }
     public function AdminEditProfile(){
-        $id = 1;
+        $id = Session::get('id');
         $admin = Admin::find($id);
         return view('admin.admin-edit-profile',compact(['admin']));
     }
@@ -46,8 +46,8 @@ class AlternateAdminController extends Controller
         $email = $req->email;
         $birth_date = $req->birth_date;
         $address = $req->address;
-
-        $obj = Admin::find(1);
+        $id = Session::get('id');
+        $obj = Admin::find($id);
         $obj->name = $name;
         $obj->email = $email;
         $obj->dob = $birth_date;
@@ -59,7 +59,7 @@ class AlternateAdminController extends Controller
     }
 
     public function AdminEditPassword(){
-        $id = 1;
+        $id = Session::get('id');
         $admin = Admin::find($id);
         return view('admin.admin-edit-pass',compact(['admin']));
     }
@@ -67,14 +67,15 @@ class AlternateAdminController extends Controller
         $current = $req->pass1;
         $new = $req->pass2;
         $re_new = $req->pass3;
-        $admin = Admin::find(1);
+        $id = Session::get('id');
+        $admin = Admin::find($id);
         if($current!=$admin->pass){
             return redirect()->back()->with('dup_msg1','Wrong Password!!!!!');
         }
         if($new!=$re_new){
             return redirect()->back()->with('dup_msg2','New password does not match with retyped password!!!!!');
         }
-        $obj = Admin::find(1);
+        $obj = Admin::find($id);
         $obj->pass = $new;
         if($obj->save()){
             return redirect('/admin-password-update')->with('suc_msg','Password Successfully Updated!!!!!');;

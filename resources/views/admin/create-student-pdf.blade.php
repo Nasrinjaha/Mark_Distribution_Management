@@ -13,13 +13,16 @@
 <body>
     <div class="container">
         <h1 align="center">Student Details</h1><br>
-        <h4>Student's Name = {{$stu->name}}</h4>
-        <h4>Student's Email = {{$stu->email}}</h4>
-        <h4>Student's Date of Birth = {{$stu->dob}}</h4>
-        <h4>Student's Address = {{$stu->address}}</h4>
-        <br><br><br><br>
-        <h4>Student's' Profile Picture = <img src="{{ public_path('thumbnail/'.$stu->img) }}" alt=""></h4>
+        <h5 align="center">Student's' Profile Picture </h5> <br>
         <div align="center">
+            <img src="{{ public_path('thumbnail/'.$stu->img) }}"  alt="">
+        </div>
+        <br><br>
+        <h5>Student's Name = {{$stu->name}}</h5>
+        <h5>Student's Email = {{$stu->email}}</h5>
+        <h5>Student's Date of Birth = {{$stu->dob}}</h5>
+        <h5>Student's Address = {{$stu->address}}</h5>
+        <br><br>
         </div>
         
     </div>

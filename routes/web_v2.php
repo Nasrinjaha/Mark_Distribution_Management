@@ -97,7 +97,9 @@ Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
 
     Route::get('/teacher-dashboard', [AlternativeTeacherController::class,'dashboard']); 
-    Route::get('/teacher-dashboardd', [AlternativeTeacherController::class,'dashboardd']); 
+    Route::get('/teacher-dashboardd', [AlternativeTeacherController::class,'dashboardd']);
+    Route::get('/teacher-profile', [AlternativeTeacherController::class,'TeacherProfile']);
+    Route::get('/teacher-courses', [AlternativeTeacherController::class,'Courses']);
 
     Route::get('/edit-teacher-info', [AlternativeTeacherController::class,'EditInfo']);
     Route::post('/update-teacher-info', [AlternativeTeacherController::class, 'UpdateInfo']);
@@ -106,7 +108,8 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::post('/update-teacher-pass', [AlternativeTeacherController::class, 'UpdatePass']);
 
     Route::get('/teacher-previous-courses', [AlternativeTeacherController::class,'PreviousCourse']);
-
+    Route::get('/teacher-previous-coursess', [AlternativeTeacherController::class,'PreviousCoursee']);
+    Route::get('/get-previous-course/{id}{semester}{tid}', [AlternativeTeacherController::class, 'getPreviousCourse']);
 });
 
 

@@ -4,20 +4,55 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\Assigncourse;
 use Session;
+use App\Models\Course;
 use DB;
 
 class AlternativeTeacherController extends Controller
 {
     public function dashboard(){
         $id = Session::get('id');
+        $lst=DB::table('sessions')->max('id');
         $teacher = Teacher::find($id);
-        return view('teacher.teacher-dashboard',compact('teacher')); 
+        $courses =DB::table('assigncourses')
+        ->select('courses.id','courses.Course_code','courses.Name','courses.Semester','courses.Type','assigncourses.id','assigncourses.session_id','assigncourses.teacher_id','assigncourses.course_id','assigncourses.section')
+        ->join('courses','courses.id','=','assigncourses.course_id')
+        ->where('assigncourses.session_id','=',$lst)
+        ->where('assigncourses.teacher_id','=',$id)
+        ->get()->count();
+        $teachers = DB::table('teachers')->count();
+        $prevs =DB::table('assigncourses')
+        ->select('courses.id','courses.Course_code','courses.Name','courses.Semester','courses.Type','assigncourses.id','assigncourses.session_id','assigncourses.teacher_id','assigncourses.course_id','assigncourses.section')
+        ->join('courses','courses.id','=','assigncourses.course_id')
+        ->where('assigncourses.session_id','<',$lst)
+        ->where('assigncourses.teacher_id','=',$id)
+        ->get()->count();
+        return view('teacher.teacher-dashboardd',compact(['teacher','prevs','courses','teachers'])); 
+    }
+    public function Courses(){
+        $id = Session::get('id');
+        // $id = 3;
+        // $lst=8;
+        $lst=DB::table('sessions')->max('id');
+        $courses=DB::table('assigncourses')
+            ->select('courses.id','courses.Course_code','courses.Name','courses.Semester','courses.Type','assigncourses.id','assigncourses.session_id','assigncourses.teacher_id','assigncourses.course_id','assigncourses.section')
+            ->join('courses','courses.id','=','assigncourses.course_id')
+            ->where('assigncourses.session_id','=',$lst)
+            ->where('assigncourses.teacher_id','=',$id)
+            ->get();
+        //dd($courses);
+        return view('teacher.assigned-courses', compact(['courses']));
     }
     public function dashboardd(){
         $id = Session::get('id');
         $teacher = Teacher::find($id);
         return view('teacher.teacher-dashboardd',compact('teacher')); 
+    }
+    public function TeacherProfile(){
+        $id = Session::get('id');
+        $teacher = Teacher::find($id);
+        return view('teacher.teacher-profile',compact(['teacher']));
     }
     public function EditInfo(){
         $id = Session::get('id');
@@ -84,5 +119,53 @@ class AlternativeTeacherController extends Controller
         ->orderBy('assigncourses.session_id','asc')
         ->get();
         return view('teacher.previous-course', compact('session'));
+    }
+    public function PreviousCoursee(){
+        $tid = Session::get('id');
+        $secid = DB::table('sessions')->max('id');
+
+        $semester =DB::table('semesters')
+        ->whereIn('id', function ($query) {
+            $query->select(DB::raw('DISTINCT courses.Semester'))
+                ->from('assigncourses')
+                ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+                ->where('assigncourses.session_id', '<', 8)
+                ->where('assigncourses.teacher_id', 8)
+                ->orderBy('assigncourses.session_id', 'ASC');
+        })
+        ->get();
+    
+
+
+        $session=DB::table('assigncourses')
+        ->select(DB::raw('DISTINCT assigncourses.session_id, sessions.Session_name'))
+        ->join('sessions', 'assigncourses.session_id', '=', 'sessions.id')
+        ->where('assigncourses.session_id', '<', $secid)
+        ->where('assigncourses.teacher_id', '=', $tid)
+        ->orderBy('assigncourses.session_id', 'asc')
+        ->get();
+
+        return view('teacher.teacher-previous-course', compact('session','semester','tid'));
+    }
+
+    public function getPreviousCourse($ses,$sem,$tid){
+        //$users = Assigncourse::where('session_id', $id)->get();
+       //dd($tid,$secid);
+       $sessions =DB::table('assigncourses')
+       ->select('assigncourses.session_id', 'assigncourses.teacher_id', 'assigncourses.course_id', 'courses.Name', 'courses.Course_code', 'sessions.Session_name', 'assigncourses.section', 'courses.Semester')
+       ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+       ->join('sessions', 'assigncourses.session_id', '=', 'sessions.id')
+       ->where('assigncourses.session_id', '=', $ses)
+       ->where('assigncourses.teacher_id', '=', $tid)
+       ->where('courses.Semester', '=', $sem)
+       ->orderBy('assigncourses.session_id', 'ASC')
+       ->get();
+   
+        
+        //dd($sessions);
+        if($sessions){
+            return response()->json(array('sessions'=> $sessions));
+        }
+         
     }
 }
