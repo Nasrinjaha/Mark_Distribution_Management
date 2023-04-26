@@ -11,7 +11,7 @@ use App\Models\Section;
 use App\Models\Markdistribution;
 use App\Models\Assignmark;
 use App\Models\Semester;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Http\Request;
 use Session;
@@ -236,5 +236,49 @@ class TeacherController extends Controller
 
     public function getSemester(){
         return view('teacher.semester');
+    }
+
+
+    public function editImage(){
+        $id = Session::get('id');
+        $teacher = Teacher::find($id);
+        return view('teacher.edit-image',compact(['teacher']));
+    }
+    public function UpdateImage(Request $req){
+
+        $id = Session::get('id');
+        $originalImage = $req->file('img');
+        $thumbnailImage = Image::make($originalImage);
+
+        $thumbnailPath = public_path().'/thumbnail/';
+        $originalPath = public_path().'/images/';
+
+        $full_file_name = $originalImage->getClientOriginalName();
+        $extension = $originalImage->getClientOriginalExtension();
+        $filename = time().'.'.$extension;
+
+        $thumbnailImage->save($originalPath.$filename);
+        
+        $thumbnailImage->resize(150,150);
+        $thumbnailImage->save($thumbnailPath.$filename);  
+
+
+        $obj = Teacher::find($id);
+        $obj->img = $filename;
+        if($obj->save()){
+            return redirect('admin-image-update')->with('suc_msg','Password Successfully Updated!!!!!');
+        }
+    }
+
+    public function viewTeacherepdff($id){
+        $tec =Teacher::find($id);
+        $pdf = Pdf::loadView('teacher.create-teacher-pdf',compact('tec'));
+        return $pdf->stream();
+    }
+
+    public function downloadTeacherpdff($id){
+        $tec =Teacher::find($id);
+        $pdf = Pdf::loadView('teacher.create-teacher-pdf',compact('tec'));
+        return $pdf->download();
     }
 }

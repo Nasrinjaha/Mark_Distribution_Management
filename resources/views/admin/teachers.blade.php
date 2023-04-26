@@ -23,10 +23,11 @@
                             </div>
                         
                         </div>
-                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Import excel fil</button>
+                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Import excel file</button>
                         <a class="btn btn-primary"  href="{{ url('export-teacher-excel') }}">Export excel file</a>
                     </form>
                 </div>
+                <h3 align="center">All Teacher's</h3>
                 <div style=" margin-top: 50px">
                     <table id="example" class="table table-striped table-bordered " style="width:100%;">
                         <thead>

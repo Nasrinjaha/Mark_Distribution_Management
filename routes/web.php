@@ -100,7 +100,18 @@ Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
     Route::get('/available-course/{id}', [StudentController::class,'AvailableCourse']);
     Route::post('/enroll-request', [StudentController::class,'EnrollRequest']);
 
-   
+
+    Route::get('/edit-student-profile-info', [StudentController::class,'editProfileInfo']);
+    Route::post('/update-student-profile-info', [StudentController::class,'updateProfileInfo']);
+
+    Route::get('/edit-student-password', [StudentController::class,'editPassword']);
+    Route::post('/update-student-password', [StudentController::class,'updatePassword']);
+
+    Route::get('/edit-student-image', [StudentController::class,'editStudentImage']);
+    Route::post('/update-student-image', [StudentController::class,'updateProfileImage']);
+    
+    Route::get('/downloadStudentpdff/{id}',[StudentController::class,'downloadStudentpdff'])->name('download-pdf');
+    Route::get('/viewStudentpdff/{id}',[StudentController::class,'viewStudentepdff'])->name('view-pdf');
 });
 
 
@@ -118,6 +129,16 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::post('/store-student-marks',[TeacherController::class,'storeMarks']);
     Route::get('/get-student-marks-assign/{stid}/{catid}/{acid}',[TeacherController::class,'getStudentAssignMarks']);
     Route::get('/getsem',[TeacherController::class,'getSemester']);
+
+
+    Route::get('/edit-teacher-image', [TeacherController::class, 'editImage']);
+    Route::post('/store-teacher-image', [TeacherController::class, 'UpdateImage']);
+
+
+    Route::get('/downloadteacherpdff/{id}',[TeacherController::class,'downloadTeacherpdff'])->name('download-pdf');
+    Route::get('/viewteacherpdff/{id}',[TeacherController::class,'viewTeacherepdff'])->name('view-pdf');
+
+
 
 });
 

@@ -12,7 +12,7 @@
             <center><img src="{{ asset('thumbnail/'.$student->img)  }}" alt=""></center>
             <div class="form-group">
             <br>
-            <a class="btn btn-primary"  href="{{ url('/downloadStudentpd/'.$student->id) }}">Download pdf</a>
+                <a class="btn btn-primary"  href="{{ url('/downloadStudentpd/'.$student->id) }}">Download pdf</a>
                 <a class="btn btn-primary"  href="{{ url('/viewStudentpdf/'.$student->id) }}">View pdf</a>
             </div>
             <br>

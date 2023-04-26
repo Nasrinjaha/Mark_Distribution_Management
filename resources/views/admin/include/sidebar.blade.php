@@ -86,7 +86,7 @@
 		
 		
 	</ul>
-<br><br><br><br>
+<br><br><br><br><br><br><br><br>
 	@include('admin.include.footer')
 
 	</div>

@@ -7,10 +7,13 @@
 			<a href="#infoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">My Profile</a>
 			<ul class="collapse list-unstyled" id="infoSubmenu">
 				<li>
-					<a href="{{URL::to('edit-teacher-info')}}">Edit Information</a>
+					<a href="{{URL::to('edit-teacher-info')}}">Update Profile Info</a>
 				</li>
 				<li>
-					<a href="{{URL::to('edit-teacher-password')}}">Edit Password</a>
+					<a href="{{URL::to('edit-teacher-password')}}">Update Password</a>
+				</li>
+				<li>
+					<a href="{{URL::to('edit-teacher-image')}}">Update Image</a>
 				</li>
 			</ul>
 		</li>
@@ -18,7 +21,7 @@
 			<a href="{{URL::to('teacher-current-course')}}">Running Course's</a>
 		</li>
 		<li>
-			<a href="{{URL::to('teacher-previous-courses')}}">Complete Course's</a>
+			<a href="{{URL::to('teacher-previous-coursess')}}">Complete Course's</a>
 		</li>
 		<li>
 			<a href="{{URL::to('get-students')}}">Assign Marks</a>
@@ -27,7 +30,7 @@
 			<a href="#">Contact</a>
 		</li> -->
 	</ul>
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 	@include('teacher.include.footer')
 
 	</div>

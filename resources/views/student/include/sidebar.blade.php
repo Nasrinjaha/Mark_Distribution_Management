@@ -3,29 +3,30 @@
 	<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(thumbnail/{{Session::get('pp')}});"></a>
 
 	<ul class="list-unstyled components mb-5">
-		<!-- <li class="active">
-			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+		<li class="active">
+			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Profile</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu">
 				<li>
-					<a href="#">Home 1</a>
+					<a href="{{URL::to('edit-student-profile-info')}}">Update profile info</a>
 				</li>
 				<li>
-					<a href="#">Home 2</a>
+					<a href="{{URL::to('edit-student-password')}}">Update Password</a>
 				</li>
 				<li>
-					<a href="#">Home 3</a>
+					<a href="{{URL::to('edit-student-image')}}">update Profile Image</a>
 				</li>
 			</ul>
-		</li> -->
-		<li>
-			<a href="#">About</a>
 		</li>
+		<li>
+			<a href="{{URL::to('enroll')}}">Result</a>
+		</li>
+
 		<li>
 			<a href="{{URL::to('enroll')}}">Enrollment</a>
 		</li>
 		
 	</ul>
-
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	@include('admin.include.footer')
 
 	</div>
