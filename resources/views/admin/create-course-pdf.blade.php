@@ -13,16 +13,16 @@
 <body>
     <div class="container">
         <h1 align="center">Course Details</h1><br>
-        <h4>Course Name = {{$course->Name}}</h4>
-        <h4>Course Code = {{$course->Course_code}}</h4>
-        <h4>Semester = {{$course->Semester}}</h4>
-        <h4>Course Credit = {{$course->Credit}}</h4>
-        <h4>Student limit = {{$course->Student_limit}}</h4>
-        <h4>Course Hour = {{$course->Hour}}</h4>
+        <h6>Course Name = {{$course->Name}}</h6>
+        <h6>Course Code = {{$course->Course_code}}</h6>
+        <h6>Semester = {{$course->Semester}}</h6>
+        <h6>Course Credit = {{$course->Credit}}</h6>
+        <h6>Student limit = {{$course->Student_limit}}</h6>
+        <h6>Course Hour = {{$course->Hour}}</h6>
         @if($course->Type==1)
-            <h4>Course Type = Theory</h4>
+            <h6>Course Type = Theory</h6>
         @else
-            <h4>Course Type = LAB</h4>
+            <h6>Course Type = LAB</h6>
         @endif
     </div>
 </body>
