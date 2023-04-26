@@ -10,7 +10,7 @@
         <div id="content" class="p-4 p-md-5">
             @include('admin.include.navbar')
                 <div>
-                    <form method="post" action="{{ URL::to('store-excel') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ URL::to('store-excel-course') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="row 3">
                             <div class="form-group">
@@ -23,10 +23,11 @@
                             </div>
                         
                         </div>
-                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Import excel fil</button>
+                        <button type="submit" class="btn btn-primary" name="submit" value="submit">Import excel file</button>
                         <a class="btn btn-primary"  href="{{ url('export-course-excel') }}">Export excel file</a>
                     </form>
                 </div>
+                <h3 align="center">All Course's</h3>
                 <div style=" margin-top: 50px">
                     <table id="example" class="table table-striped table-bordered " style="width:100%;">
                         <thead>

@@ -28,12 +28,15 @@ class AlternateAdminController extends Controller
         $students = DB::table('students')->count();
         $courses = DB::table('courses')->count();
         $teachers = DB::table('teachers')->count();
-        return view('admin.admin-dashboardd',compact(['admin','students','courses','teachers'])); 
+        $last = Session::latest()->first();
+        //dd($last);
+        return view('admin.admin-dashboardd',compact(['admin','students','courses','teachers','last'])); 
     }
 
     public function AdminProfile(){
         $id = Session::get('id');
-        $admin = Admin::find($id);
+        $ad= Admin::find($id);
+        $admin=$ad[0];
         return view('admin.admin-profile',compact(['admin']));
     }
     public function AdminEditProfile(){
