@@ -9,7 +9,7 @@
         <div id="content" class="p-4 p-md-5">
             @include('teacher.include.navbar')
             <div> 
-                <h2 align="center">Mark Distribution</h2>
+                <h2 align="center">Assign Marks</h2>
                 <form  align="center" action="">
                   
                     @if(Session::has('suc_msg'))

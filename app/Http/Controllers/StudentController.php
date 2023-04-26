@@ -10,7 +10,7 @@ use App\Models\Assigncourse;
 use App\Models\Section;
 use App\Models\Markdistribution;
 use App\Models\Enroll;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Session;
 use Image;
@@ -61,6 +61,105 @@ class StudentController extends Controller
         }
         return redirect()->back()->with('suc_msg','Successfully inserted');
     }
+
+    public function editProfileInfo(){
+        $id = Session::get('id');
+        $student = Student::find($id);
+        return view('student.edit-student-info', compact('student'));
+    }
+
+    public function   updateProfileInfo(Request $req){
+        $id = Session::get('id');
+        $name = $req->name;
+        $email = $req->email;
+        $dob = $req->birth_date;
+        $address=$req->address;
+        $users =  Student::select("*")
+        ->where("email", "=", $email)
+        ->first();  
+        if($users && ($users->id!=$id)){
+            return redirect()->back()->with('dup_msg','Already exist Email!!!!!');
+        } 
+        $obj =  Student::find($id);
+        $obj->name = $name;
+        $obj->email = $email;
+        $obj->dob = $dob;
+        $obj->address = $address;
+        if($obj->save()){
+           return redirect('/edit-student-profile-info')->with('suc_msg','Information Successfully Updated!!!!!');;
+        }
+    }
+  
+    public function editPassword(){
+        $id = Session::get('id');
+        $student = Student::find($id);
+        return view('student.edit-student-password', compact('student'));
+    }
+
+    public function updatePassword(Request $req){
+        $current = $req->pass1;
+        $new = $req->pass2;
+        $re_new = $req->pass3;
+        $id = Session::get('id');
+        $student =  Student::find($id);
+        if($current!= $student->pass){
+            return redirect()->back()->with('dup_msg1','Wrong Password!!!!!');
+        }
+        if($new!=$re_new){
+            return redirect()->back()->with('dup_msg2','New password does not match with retyped password!!!!!');
+        }
+        $obj =  Student::find($id);
+        $obj->pass = $new;
+        if($obj->save()){
+            return redirect('/edit-student-password')->with('suc_msg','Password Successfully Updated!!!!!');;
+         }
+    }
+
+    public function editStudentImage(){
+        $id = Session::get('id');
+        $student = Student::find($id);
+        return view('student.edit-student-image', compact('student'));
+    }
+
+    public function updateProfileImage(Request $req){
+
+        $id = Session::get('id');
+        $originalImage = $req->file('img');
+        $thumbnailImage = Image::make($originalImage);
+
+        $thumbnailPath = public_path().'/thumbnail/';
+        $originalPath = public_path().'/images/';
+
+        $full_file_name = $originalImage->getClientOriginalName();
+        $extension = $originalImage->getClientOriginalExtension();
+        $filename = time().'.'.$extension;
+
+        $thumbnailImage->save($originalPath.$filename);
+        
+        $thumbnailImage->resize(150,150);
+        $thumbnailImage->save($thumbnailPath.$filename);  
+
+
+        $obj =  Student::find($id);
+        $obj->img = $filename;
+        if($obj->save()){
+            return redirect('/edit-student-image')->with('suc_msg','Successfully Updated!!!!!');
+        }
+    }  
+
+
+    public function viewStudentepdff($id){
+        $stu =Student::find($id);
+        $pdf = Pdf::loadView('student.create-student-pdf',compact('stu'));
+        return $pdf->stream();
+    }
+
+    public function downloadStudentpdff($id){
+        $stu =Student::find($id);
+        $pdf = Pdf::loadView('student.create-student-pdf',compact('stu'));
+        return $pdf->download();
+    }
+    
 }
 
 

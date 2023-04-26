@@ -415,7 +415,7 @@ class AdminController extends Controller
         }
     }
     public function editDesgnatoin(){
-        $teachers = Teacher::all();
+        $teachers = Teacher::where('id','<>','0')->get();
         return view('admin.edit-designation', compact('teachers'));
     }
     public function UpdateDesgnatoin($id){
