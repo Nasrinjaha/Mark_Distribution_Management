@@ -8,6 +8,7 @@ use App\Models\Assigncourse;
 use Session;
 use App\Models\Course;
 use DB;
+use App\Models\Session as ses;
 
 class AlternativeTeacherController extends Controller
 {
@@ -28,7 +29,8 @@ class AlternativeTeacherController extends Controller
         ->where('assigncourses.session_id','<',$lst)
         ->where('assigncourses.teacher_id','=',$id)
         ->get()->count();
-        return view('teacher.teacher-dashboardd',compact(['teacher','prevs','courses','teachers'])); 
+        $last = ses::latest()->first();
+        return view('teacher.teacher-dashboardd',compact(['teacher','prevs','courses','teachers','last'])); 
     }
     public function Courses(){
         $id = Session::get('id');
@@ -47,7 +49,8 @@ class AlternativeTeacherController extends Controller
     public function dashboardd(){
         $id = Session::get('id');
         $teacher = Teacher::find($id);
-        return view('teacher.teacher-dashboardd',compact('teacher')); 
+        $last = Session::latest()->first();
+        return view('teacher.teacher-dashboardd',compact('teacher','last')); 
     }
     public function TeacherProfile(){
         $id = Session::get('id');
@@ -125,18 +128,16 @@ class AlternativeTeacherController extends Controller
         $secid = DB::table('sessions')->max('id');
 
         $semester =DB::table('semesters')
-        ->whereIn('id', function ($query) {
+        ->whereIn('id', function ($query) use ($secid, $tid) {
             $query->select(DB::raw('DISTINCT courses.Semester'))
                 ->from('assigncourses')
                 ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
-                ->where('assigncourses.session_id', '<', 8)
-                ->where('assigncourses.teacher_id', 8)
+                ->where('assigncourses.session_id', '<', $secid)
+                ->where('assigncourses.teacher_id', '=', $tid)
                 ->orderBy('assigncourses.session_id', 'ASC');
         })
         ->get();
     
-
-
         $session=DB::table('assigncourses')
         ->select(DB::raw('DISTINCT assigncourses.session_id, sessions.Session_name'))
         ->join('sessions', 'assigncourses.session_id', '=', 'sessions.id')

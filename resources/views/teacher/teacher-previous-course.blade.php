@@ -9,7 +9,7 @@
         <div id="content" class="p-4 p-md-5">
             @include('teacher.include.navbar')
                 <div>
-                    <h2 align="center">Teacher's Previous courses</h2>
+                    <h2 align="center">My conducted Course's</h2>
                     <br>
                         <div class="row">
 

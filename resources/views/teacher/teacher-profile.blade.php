@@ -160,7 +160,7 @@ p {
                                     <div class="col-sm-4 bg-c-lite-green user-profile">
                                         <div class="card-block text-center text-white">
                                             <div class="m-b-25">
-                                                <img src="{{ public_path('thumbnail/'.$teacher->img) }}" class="img-radius" alt="User-Profile-Image">
+                                                <img src="{{ asset('thumbnail/'.$teacher->img)  }}" style ="width:100%" class="img-radius" alt="User-Profile-Image">
                                             </div>
                                             <h6 class="f-w-600">{{$teacher->name}}</h6>
                                             <p>Assistant Professor</p>
@@ -169,7 +169,7 @@ p {
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="card-block">
-                                            <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                            <h6 class="m-b-20 p-b-5 b-b-default f-w-600" style="margin-top:20px">Information</h6>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <p class="m-b-10 f-w-600">Email</p>
@@ -186,17 +186,7 @@ p {
                                                     <h6 class="text-muted f-w-400">{{$teacher->dob}}</h6>
                                                 </div>
                                             </div>
-                                            <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <p class="m-b-10 f-w-600">Recent</p>
-                                                    <h6 class="text-muted f-w-400">Sam Disuja</h6>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <p class="m-b-10 f-w-600">Most Viewed</p>
-                                                    <h6 class="text-muted f-w-400">Dinoter husainm</h6>
-                                                </div>
-                                            </div>
+                                            
                                             <ul class="social-link list-unstyled m-t-40 m-b-10">
                                                 <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
                                                 <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="twitter" data-abc="true"><i class="mdi mdi-twitter feather icon-twitter twitter" aria-hidden="true"></i></a></li>

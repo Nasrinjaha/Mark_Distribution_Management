@@ -32,39 +32,64 @@
                                 <td>{{ $enroll->Course_code }}</td>
                                 <td>{{ $enroll->semester }}</td>
                                 <td>{{ $enroll->section }}</td>
-                                <td>
-                                    <form method="get" action="{{ url('apprve/'.$enroll->enroll_id) }}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success">Approve</button>
-                                    </form>
-                                    <br>
-                                        <a data-toggle="modal" data-target="#enroll{{$enroll->enroll_id}}" class="btn btn-danger">Delete</a>
-                                        <div class="modal" id="enroll{{$enroll->enroll_id}}">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-        
-                                        <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Delete Confirmation</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-        
-                                        <!-- Modal body -->
-                                                     <div class="modal-body">
-                                                        Are you sure you want to delete?
-                                                    </div>
-        
-                                        <!-- Modal footer -->
-                                                     <div class="modal-footer">
-                                            <form align="center" action="{{url('deletreq/'.$enroll->enroll_id)}}" enctype="multipart/form-data" method="get">
-                                                {{ csrf_field() }}
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                            <button type="submit"  name = "submit" class="btn btn-success">Yes</button>
-                                            </form>
+                                
+                                 <td>
+                                     <!-- <a href="{{ url('apprve/'.$enroll->enroll_id) }}"class="btn btn-success">Approve</a>  -->
+
+                                    <a data-toggle="modal" data-target="#abc{{$enroll->enroll_id}}"  class="btn btn-success">Approve</a>
+                                    <div class="modal" id="abc{{$enroll->enroll_id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                            
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Aprrove Confirmation</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            
+                                            <div class="modal-body">
+                                                Are you sure you want to Approve?
+                                            </div>
+
+                                            
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                <a href="{{ url('apprve/'.$enroll->enroll_id) }}" class="btn btn-success">Yes</a>
+                                            </div>
+
+                                            </div>
                                         </div>
-    
                                     </div>
-                                </div>
+
+                                    <a data-toggle="modal" data-target="#enroll{{$enroll->enroll_id}}"  class="btn btn-danger">Delete</a>
+                                    <div class="modal" id="enroll{{$enroll->enroll_id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                            
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete Confirmation</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                        
+                                            <div class="modal-body">
+                                                Are you sure you want to delete?
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                                <a href="{{url('deletreq/'.$enroll->enroll_id)}}"class="btn btn-success">Yes</a>
+                                            </div>
+
+                                            </div>
+                                        </div>
+                                    </div> 
+
+                                    
+
+
                                 </td>
                             </tr>
                             @endforeach
