@@ -9,6 +9,55 @@
      @include('admin.include.sidebar')
         <div id="content" class="p-4 p-md-5">
             @include('admin.include.navbar')
+                @if($last->Enrollment_status==0)
+                    {{-- <button class="btn btn-primary" align="center">Turn Enrollment On</button> --}}
+                    <a data-toggle="modal" data-target="#abc{{$last->id}}"  class="btn btn-success">Turn Enrollment On</a>
+                    <div class="modal" id="abc{{$last->id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Turn On</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                           
+                            <div class="modal-body">
+                                Are you sure you want to Turn On?
+                            </div>
+
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <a href="{{ url('enrollmentswitching/'.$last->id) }}" class="btn btn-success">Yes</a>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                @elseif($last->Enrollment_status==1)
+                    {{-- <button class="btn btn-primary" align="center">Turn Enrollment OFF</button> --}}
+                    <a data-toggle="modal" data-target="#def{{$last->id}}"  class="btn btn-danger">Turn Enrollment OFF</a>
+                    <div class="modal" id="def{{$last->id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Turn OFF</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                Are you sure you want to Turn Off?
+                            </div>
+
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <a href="{{ url('enrollmentswitching/'.$last->id) }}" class="btn btn-success">Yes</a>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div align="center" style="background-color:white">
                     <h2>Pending {{$cnt}} student's -> {{$last->Session_name}}</h2>
                 </div>
@@ -43,7 +92,7 @@
 
                                             
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Aprrove Confirmation</h4>
+                                                <h4 class="modal-title">Approve Confirmation</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
 
