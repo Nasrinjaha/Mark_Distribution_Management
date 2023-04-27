@@ -80,6 +80,7 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
     Route::get('/get-course-data/{course_id}', [AlternateAdminController::class, 'getcoursedata']);
 
     Route::get('/enrollment', [AlternateAdminController::class, 'Enrollreq']);
+    Route::get('/enrollmentswitching/{id}', [AlternateAdminController::class, 'SwithchEnrollment']);
     Route::get('/apprve/{id}', [AlternateAdminController::class, 'AppEnrollreq']);
     Route::get('/deletreq/{id}', [AlternateAdminController::class, 'DeleteEnrollreq']);
 

@@ -67,4 +67,7 @@ background:#eee;
 .bg-red {
     background-color: #d9534f !important;
 }
+.bg-violet {
+    background-color: #E985B7 !important;
+}
   </style>

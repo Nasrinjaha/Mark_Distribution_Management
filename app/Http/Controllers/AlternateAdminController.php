@@ -285,6 +285,19 @@ class AlternateAdminController extends Controller
         $last = Session::latest()->first();
         return view('admin.enroll-request', compact(['enroll','cnt','last']));
     }
+    public function SwithchEnrollment($id){
+        $ses =Session::find($id);
+        //dd($ses);
+        if($ses->Enrollment_status==0){
+            $ses->Enrollment_status=1;
+        }
+        else{
+            $ses->Enrollment_status=0;
+        }
+        if($ses->save()){
+            return redirect()->back();
+        }
+    }
     public function AppEnrollreq($id){
         $obj =Enroll::find($id);
         $obj->status = 1;
