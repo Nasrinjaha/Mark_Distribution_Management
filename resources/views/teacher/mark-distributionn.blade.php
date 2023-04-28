@@ -10,7 +10,7 @@
             @include('teacher.include.navbar')
             <div> 
                 <h2 align="center">Mark Distribution</h2>
-                <form  align="center" action="{{ url('/mark-distribution') }}" enctype="multipart/form-data" method="post">
+                <form  align="center" action="{{ url('/mark-distribution') }}" enctype="multipart/form-data" method="post" id="my-form">
                     @csrf
                     @if(Session::has('suc_msg'))
                         <div align="center">
@@ -54,68 +54,75 @@
                         <tbody id="dynamic">  
                         </tbody>
                     </table>
-                   <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                   <button type="submit" name="submit" id="button" class="btn btn-primary">Assign</button>
                 </form>
                 </div>
             </div>
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script type="text/javascript">
-        
+        var n=1;
+        var sum=0;
         $(document).ready(function(){
-            var sum = 0;
-            var temp=0;
-            $('#button').hide();
-            $(document).keyup(function (event) {
-
-                //temp = $('#'+event.target.id).val();
-                temp = $(event.target).val();
-                //console.log(temp);
-
-            });
             
-            $(document).on('click','#add_btn',function(){
-                //console.log(temp);
-               sum+= parseInt(temp);
-               temp=0;
-               console.log(sum);
-               if(sum==100){
-                    $('#button').show();
-                    //continue;
+            $('#my-form').on('input',function(){
+                sum=0;
+                for(var x=0;x<n;x++){
+                    var value=$('#marks'+x).val();
+                    if(value){
+                        console.log(value);
+                        sum = sum+ parseInt(value);
+                    }
+                    
                 }
-                else if(sum>100){
-                    alert('greater than hundred!!!');
-                }
-                else{
-                    $('#button').hide();
-                    var html = '';
-                    html+='<tr>';
-                    html+='<td><input id="cat" type="text" name="category[]"></td>';
-                    html+='<td><input id="mark" type="number" name="marks[]"></td>';
-                    html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
-                    html+='</tr>';
-                    $('#dynamic').append(html);
-                }
-                
-                
-                //console.log(add);
-                //console.log(sum);
-
-            });
-            $(document).on('click','#rmv_btn',function(){
-                alert($(this).children('#mark').val());
-                var rmv = $(this).closest('tr').children().children('#mark').val();
-                sum-= parseInt(rmv);
-                console.log(rmv);
-                $(this).closest('tr').remove();
+                console.log('-----------------');
+                console.log('sum = '+sum);
                 if(sum==100){
                     $('#button').show();
                 }
                 else{
                     $('#button').hide();
                 }
+
+            });
+           
+            $(document).on('click','#add_btn',function(){
+              
+               
+                    var html = '';
+                    html+='<tr>';
+                    html+='<td><input id="cat" type="text" name="category[]"></td>';
+                    html+='<td><input id="marks'+ n +'" type="number" name="marks[]"></td>';
+                    html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
+                    html+='</tr>';
+                    $('#dynamic').append(html);
+                    n++;
+
+
+            });
+            $(document).on('click','#rmv_btn',function(){
+
+                $(this).closest('tr').remove();
+                sum=0;
+                for(var x=0;x<n;x++){
+                    var value=$('#marks'+x).val();
+                    if(value){
+                        console.log(value);
+                        sum = sum+ parseInt(value);
+                    }
+                    
+                }
+                console.log('-----------------');
+                console.log('sum = '+sum);
+                
                 //console.log(rmv);
                // console.log(this.sum);
+               if(sum==100){
+                    $('#button').show();
+                }
+                else{
+                    $('#button').hide();
+                }
                 
 
             });
@@ -124,7 +131,7 @@
             $("#session").change(function(){
                 var session_id = $(this).val();
                 if(session_id!=" "){
-                    sum = 0;
+
                     $("#course").empty();
                     $("#dynamic").empty();
                     $('#teacherassign').hide();
@@ -154,7 +161,6 @@
                     $("#course").change(function(){
                         var id = $(this).val();
                         if(id!=" "){
-                            sum=0;
                             $("#dynamic").empty();
                             $.ajax({
                                 url: 'http://127.0.0.1:8000/distributed-course/'+id,
@@ -167,16 +173,33 @@
                                         $('#dynamic').empty();
                                         var html = '';
                                         for(var i=0; i<len; i++){
+
+                                            if(i==0){
                                                 html = '';
                                                 html+='<tr>';
                                                 html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
-                                                html+='<td><input type="number" name="marks[]" id="marks" value="'+response.users[i].marks+'"></td>';
+                                                html+='<td><input type="number" name="marks[]" id="marks0" value="'+response.users[i].marks+'"></td>';
                                                 sum+=response.users[i].marks;
                                                 //console.log(sum);
                                                 html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
                                                 html+='</tr>';
                                                 $('#dynamic').append(html);
+                                            }
+                                            else{
+                                              
+                                                html = '';
+                                                html+='<tr>';
+                                                html+='<td><input type="text" name="category[]" value="'+response.users[i].category+'"></td>';
+                                                html+='<td><input type="number" name="marks[]" id="marks'+i+'" value="'+response.users[i].marks+'"></td>';
+                                                html+='<td><button class="btn btn-danger" id="rmv_btn"><i class="fa fa-minus"></i></button></td>';
+                                                sum+=response.users[i].marks;
+                                                //console.log(sum);
+                                                html+='</tr>';
+                                                $('#dynamic').append(html);
+                                            }
+                                            
                                         }
+                                        n=len;
                                         
                                         $('#teacherassign').show();
                                         //$('#button').show();
@@ -187,7 +210,7 @@
                                         var html = '';
                                         html+='<tr>';
                                         html+='<td><input type="text" name="category[]"></td>';
-                                        html+='<td><input type="number" name="marks[]" id="marks"></td>';
+                                        html+='<td><input type="number" name="marks[]" id="marks0"></td>';
                                         html+='<td><button type="button" class="btn btn-success" id="add_btn"><i class="fa fa-plus"></i></button></td>';
                                         html+='</tr>';
                                         $('#dynamic').append(html);

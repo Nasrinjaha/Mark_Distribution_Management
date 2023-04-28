@@ -17,9 +17,9 @@
 				</li>
 			</ul>
 		</li>
-		<li>
-			<a href="{{URL::to('enroll')}}">Result</a>
-		</li>
+		<!-- <li>
+			<a href="#">Result</a>
+		</li> -->
 
 		<li>
 			<a href="{{URL::to('enroll')}}">Enrollment</a>
