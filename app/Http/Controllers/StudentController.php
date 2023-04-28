@@ -159,6 +159,23 @@ class StudentController extends Controller
         $pdf = Pdf::loadView('student.create-student-pdf',compact('stu'));
         return $pdf->download();
     }
+
+    public function ViewResult(){
+        $id=Session::get('id');
+        $secid = DB::table('sessions')->max('id');
+        $crc=DB::table('assigncourses')
+        ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+        ->select('assigncourses.id', 'courses.Name', 'assigncourses.section')
+        ->whereIn('assigncourses.id', function($query) use ($id,$secid){
+            $query->select('assigncourse_id')
+                ->from('enrolls')
+                ->where('st_id', '=', $id);
+        })
+        ->where('session_id', '=', 8)
+        ->get();
+    
+        return view('student.student-result', compact('crc'));
+    }
     
 }
 

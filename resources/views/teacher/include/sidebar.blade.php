@@ -26,9 +26,9 @@
 		<li>
 			<a href="{{URL::to('get-students')}}">Assign Marks</a>
 		</li>
-		<!-- <li>
-			<a href="#">Contact</a>
-		</li> -->
+		<li>
+			<a href="{{URL::to('result')}}">Result Publish</a>
+		</li>
 	</ul>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 	@include('teacher.include.footer')

@@ -144,6 +144,7 @@ class TeacherController extends Controller
                 $obj->ac_id = $ac_id;
                 $obj->cat_id =  $cat_id;
                 $obj->marks = $marks;
+                $obj->Publish_sts = 0;
 
         if($obj->save()){
             return response()->json([
