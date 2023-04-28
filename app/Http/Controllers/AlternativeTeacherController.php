@@ -265,4 +265,5 @@ class AlternativeTeacherController extends Controller
             return response()->json(array('set'=> $set));
         }
     }
+
 }

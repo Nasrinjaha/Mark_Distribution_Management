@@ -92,6 +92,7 @@ Route::middleware(['IsLoggedin','IsAdmin'])->group(function (){
 Route::middleware(['IsLoggedin','IsStudent'])->group(function (){
 
     Route::get('/student-dashboard', [StudentController::class,'dashboard']); 
+    Route::get('/view_result', [StudentController::class,'ViewResult']);
 });
 
 
