@@ -52,7 +52,7 @@
                                     @endforeach
                                 </tbody>
                             </table>  
-                            <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+                            <button type="submit" name="submit" id="button" class="btn btn-primary">Assign</button>
                         </form>
                     </div>
                 </div>

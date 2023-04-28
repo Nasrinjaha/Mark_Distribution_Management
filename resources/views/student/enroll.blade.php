@@ -1,6 +1,6 @@
 @extends('student.layout.full')
 @section('content')
-<h2 align="center">Running Session's</h2>
+<h2 align="center">Enrollment Form</h2>
 <form  align="center"  action="{{url('/enroll-request')}}" method="post">
     @csrf
     @if(Session::has('suc_msg'))
@@ -14,9 +14,11 @@
     <option value=" ">--Choose Session--</option>
         @foreach($ses as $s)
             @if($s->Status)
+                @if($s->Enrollment_status)
                 <ul>
                     <option value="{{$s->id}}">{{$s->Session_name}}</option>
                 </ul>
+                @endif
             @endif
         @endforeach
     </select>
@@ -34,7 +36,7 @@
                 
             </tbody>
         </table>  
-        <button type="submit" name="submit" id="button" class="btn btn-primary">assign</button>
+        <button type="submit" name="submit" id="button" class="btn btn-primary">Enroll</button>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
