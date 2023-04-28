@@ -93,6 +93,7 @@
                     $("#semester").change(function(){
                     var semester = $(this).val();
                     if(semester!=" "){
+                        $('#button').hide();
                         $('#teacherassign').empty();
                         var table_str='';
                         var l;
@@ -106,12 +107,20 @@
                                 var len = response.category.length;
                                 l=len;
                                 console.log(len);
-                                // console.log(session_id,"  ",semester,"  ",tid);
-                                table_str+='<tr><th>Student Name</th><th>Student ID</th>';
-                                for(var i=0;i<len;i++){
-                                    table_str += '<th>'+response.category[i].category+' ('+response.category[i].marks+')</th>'
+                                if(len==0){
+                                    
+                                    alert('mark distrubution are not conducted');
                                 }
-                                table_str+='<th>Total</th><th>Grade</th></tr>';
+                                // console.log(session_id,"  ",semester,"  ",tid);
+                                else{
+                                   
+                                    table_str+='<tr><th>Student Name</th><th>Student ID</th>';
+                                    for(var i=0;i<len;i++){
+                                        table_str += '<th>'+response.category[i].category+' ('+response.category[i].marks+')</th>'
+                                    }
+                                    table_str+='<th>Total</th><th>Grade</th></tr>';
+                                }
+                               
                                 // $("#teacherassign").html(table_str);
                                 // $('#teacherassign').show();
                             }
@@ -184,11 +193,15 @@
                                     }
                                     
                                 }
-                                $('#button').show();
-                                $("#teacherassign").html(table_str);
-                                $('#teacherassign').show();
-                                
-                                
+                                if(len==0){
+                                    $('#button').hide();
+                                }
+                                else{
+                                    $('#button').show();
+                                    $("#teacherassign").html(table_str);
+                                    $('#teacherassign').show();
+                                }
+                               
                             }
                         });
                         $.ajax({
