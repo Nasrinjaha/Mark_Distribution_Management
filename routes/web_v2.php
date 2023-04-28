@@ -111,6 +111,12 @@ Route::middleware(['IsLoggedin','IsTeacher'])->group(function (){
     Route::get('/teacher-previous-courses', [AlternativeTeacherController::class,'PreviousCourse']);
     Route::get('/teacher-previous-coursess', [AlternativeTeacherController::class,'PreviousCoursee']);
     Route::get('/get-previous-course/{id}{semester}{tid}', [AlternativeTeacherController::class, 'getPreviousCourse']);
+
+    Route::get('/result', [AlternativeTeacherController::class,'Result']);
+    Route::get('/result-course/{id}', [AlternativeTeacherController::class,'ResultCourse']);
+    Route::get('/result-category/{id}', [AlternativeTeacherController::class,'ResultCategory']);
+    Route::get('/result-mark/{id}', [AlternativeTeacherController::class,'ResultMarks']);
+    Route::get('/publish_result/{id}', [AlternativeTeacherController::class,'PublishResult']);
 });
 
 

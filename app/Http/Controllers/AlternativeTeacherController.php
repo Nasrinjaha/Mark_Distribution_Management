@@ -169,4 +169,100 @@ class AlternativeTeacherController extends Controller
         }
          
     }
+
+    public function Result(){
+        $tid = Session::get('id');
+        $secid = DB::table('sessions')->max('id');
+
+
+
+        $sem=DB::table('semesters')
+        ->whereIn('id', function ($query)  use ($secid, $tid){
+            $query->select('courses.Semester')
+                ->from('assigncourses')
+                ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+                ->where('assigncourses.session_id', '=', $secid)
+                ->where('assigncourses.teacher_id', '=', $tid)
+                ->orderBy('courses.Semester', 'ASC');
+        })
+        ->get();
+    
+    
+
+        $semester =DB::table('semesters')
+        ->whereIn('id', function ($query) use ($secid, $tid) {
+            $query->select(DB::raw('DISTINCT courses.Semester'))
+                ->from('assigncourses')
+                ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+                ->where('assigncourses.session_id', '=', $secid)
+                ->where('assigncourses.teacher_id', '=', $tid)
+                ->orderBy('assigncourses.session_id', 'ASC');
+        })
+        ->get();
+    
+        $session=DB::table('assigncourses')
+        ->select(DB::raw('DISTINCT assigncourses.session_id, sessions.Session_name'))
+        ->join('sessions', 'assigncourses.session_id', '=', 'sessions.id')
+        ->where('assigncourses.session_id', '=', $secid)
+        ->where('assigncourses.teacher_id', '=', $tid)
+        ->orderBy('assigncourses.session_id', 'asc')
+        ->get();
+
+        return view('teacher.display-result', compact('sem','session','semester','tid'));
+    }
+    public function ResultCourse($semid){
+        $tid = Session::get('id');
+        $secid = DB::table('sessions')->max('id');
+        $result = DB::table('assigncourses')
+            ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+            ->select('courses.Name', 'assigncourses.section', 'assigncourses.id')
+            ->where('assigncourses.session_id', '=', $secid)
+            ->where('assigncourses.teacher_id', '=', $tid)
+            ->whereIn('assigncourses.course_id', function ($query)use ($semid) {
+                $query->select('id')
+                    ->from('courses')
+                    ->where('Semester', '=', $semid);
+            })
+        ->get();
+        if($result){
+            return response()->json(array('result'=> $result));
+        }
+    }
+
+
+    public function ResultCategory($id){
+        // $tid = Session::get('id');
+        // $secid = DB::table('sessions')->max('id');
+        $category = DB::table('markdistributions')
+            ->where('ac_id', '=', $id)
+            ->get();
+
+        if($category){
+            return response()->json(array('category'=> $category));
+        }
+    }
+    public function ResultMarks($id){
+        // $tid = Session::get('id');
+        // $secid = DB::table('sessions')->max('id');
+        $mark = DB::table('assignmarks')
+        ->select('students.name', 'assignmarks.id', 'assignmarks.st_id', 'assignmarks.ac_id', 'assignmarks.cat_id', 'assignmarks.marks')
+        ->join('students', 'assignmarks.st_id', '=', 'students.id')
+        ->where('ac_id', '=', $id)
+        ->orderBy('assignmarks.st_id', 'asc')
+        ->get();
+    
+
+        if($mark){
+            return response()->json(array('mark'=> $mark));
+        }
+    }
+
+    public function PublishResult($req){
+        $set=DB::table('assignmarks')
+        ->where('ac_id', '=', $req)
+        ->update(['Publish_sts' => 1]);
+        if($set){
+            return response()->json(array('set'=> $set));
+        }
+    }
 }
