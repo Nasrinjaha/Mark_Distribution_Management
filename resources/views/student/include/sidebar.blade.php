@@ -24,6 +24,9 @@
 		<li>
 			<a href="{{URL::to('enroll')}}">Enrollment</a>
 		</li>
+		<li>
+			<a href="{{URL::to('view_result')}}">View Result</a>
+		</li>
 		
 	</ul>
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
