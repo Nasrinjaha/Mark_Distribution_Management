@@ -160,6 +160,22 @@ class StudentController extends Controller
         return $pdf->download();
     }
 
+    // public function ViewResult(){
+    //     $id=Session::get('id');
+    //     $secid = DB::table('sessions')->max('id');
+    //     $crc=DB::table('assigncourses')
+    //     ->join('courses', 'assigncourses.course_id', '=', 'courses.id')
+    //     ->select('assigncourses.id', 'courses.Name', 'assigncourses.section')
+    //     ->whereIn('assigncourses.id', function($query) use ($id,$secid){
+    //         $query->select('assigncourse_id')
+    //             ->from('enrolls')
+    //             ->where('st_id', '=', $id);
+    //     })
+    //     ->where('session_id', '=', 8)
+    //     ->get();
+    
+    //     return view('student.student-result', compact('crc'));
+    // }
     public function ViewResult(){
         $id=Session::get('id');
         $secid = DB::table('sessions')->max('id');
@@ -171,12 +187,31 @@ class StudentController extends Controller
                 ->from('enrolls')
                 ->where('st_id', '=', $id);
         })
-        ->where('session_id', '=', 8)
+        ->where('session_id', '=', $secid)
         ->get();
-    
-        return view('student.student-result', compact('crc'));
+        //dd($crc);
+        return view('student.student-result', compact('crc','id'));
     }
-    
+    public function Category($id){
+        $category=DB::table('markdistributions')->where('ac_id', '=', $id)->get();
+        if($category){
+            return response()->json(array('category'=> $category));
+        }
+    }
+    public function ResultMarkss($id){
+        $sid=Session::get('id');
+        $mark = DB::table('assignmarks')
+        ->join('students', 'assignmarks.st_id', '=', 'students.id')
+        ->select('students.name', 'assignmarks.st_id', 'assignmarks.ac_id', 'assignmarks.cat_id', 'assignmarks.marks', 'assignmarks.Publish_sts', 'assignmarks.id')
+        ->where('assignmarks.ac_id', '=', $id)
+        ->where('assignmarks.st_id', '=', $sid)
+        ->where('assignmarks.Publish_sts', '=', 1)
+        ->get();
+
+        if($mark){
+            return response()->json(array('mark'=> $mark));
+        }
+    }
 }
 
 
