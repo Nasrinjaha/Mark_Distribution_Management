@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('teacher.include.header2')
+    @include('student.include.header')
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
-     @include('teacher.include.sidebar')
+     @include('student.include.sidebar')
         <div id="content" class="p-4 p-md-5">
-            @include('teacher.include.navbar')
+            @include('student.include.navbar')
                 <div>
                     <h2 align="center">Results</h2>
                     <br>
